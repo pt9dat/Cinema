@@ -28,13 +28,31 @@ class DSPhimTBVC: UITableViewController {
 
     // MARK: - Table view data source
     @IBAction func backBtn(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
-        dismiss(animated: true, completion: nil)
+        performSegue(withIdentifier: "goTaoPhim", sender: self)
     }
     
     @IBAction func dangXuatBtn(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
-        dismiss(animated: true, completion: nil)
+        let alert = UIAlertController(title: "Xác nhận", message: "Bạn có muốn đăng xuất?", preferredStyle: .alert)
+        // actions
+        let yesBtn = UIAlertAction(title: "Có", style: .default) { (btn) in
+            
+            
+            self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: true, completion: nil)
+            
+        }
+        let noBtn = UIAlertAction(title: "Không", style: .destructive) { (btn) in
+            print("Không")
+        }
+        alert.addAction(yesBtn)
+        alert.addAction(noBtn)
+        
+        
+        present(alert, animated: true, completion: nil)
+        
+        
+        
+        
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections

@@ -16,7 +16,8 @@ class DangNhapVC: UIViewController {
     @IBOutlet weak var dangNhapBtnOulet: UIButton!
     @IBOutlet weak var dangKyBtnOulet: UIButton!
     
-    let token = UserDefaults()
+    //var user = LoginUser()
+    let userDefault = UserDefaults.standard
     
     
     override func viewDidLoad() {
@@ -53,9 +54,24 @@ class DangNhapVC: UIViewController {
         Alamofire.request(url, method: .post, parameters: info, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
             switch response.result {
             case .success:
-                print(response.)
-                self.token.set(, forKey: "token")
-                self.performSegue(withIdentifier: "goDSPhim", sender: self)
+                print(response)
+                guard let getUser = try? JSONDecoder().decode(LoginToken.self, from: response.data!) else {
+                    print("error decode")
+                    return
+                    
+                }
+                //self.user = getUser.loginUser.
+                
+                self.userDefault.set(getUser.token, forKey: "token")
+                self.userDefault.set(getUser.loginUser.id, forKey: "userID")
+                self.userDefault.set(getUser.loginUser.name, forKey: "userName")
+                self.userDefault.set(getUser.loginUser.email, forKey: "userEmail")
+                //print(self.userDefault.string(forKey: "userName")!)
+                
+                //self.performSegue(withIdentifier: "goDSPhim", sender: self)
+                
+                //print(self.token.array(forKey: "token"))
+                
                 break
             case .failure(let error):
                 

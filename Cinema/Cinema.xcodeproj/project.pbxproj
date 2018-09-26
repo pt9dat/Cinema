@@ -10,6 +10,8 @@
 		301D06D429FE746A3538D30E /* Pods_Cinema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CD06147627629D199FF5563 /* Pods_Cinema.framework */; };
 		AA3CBE07215A25DD0061E88E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CBE06215A25DD0061E88E /* User.swift */; };
 		AA3CBE0B215A2FBC0061E88E /* ListFilm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CBE0A215A2FBC0061E88E /* ListFilm.swift */; };
+		AA3F3436215B49440039EF4B /* LoginToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3F3435215B49440039EF4B /* LoginToken.swift */; };
+		AA3F3438215B65390039EF4B /* LoginUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3F3437215B65390039EF4B /* LoginUser.swift */; };
 		AA7FB8F62159CD5300E778E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7FB8F52159CD5300E778E4 /* AppDelegate.swift */; };
 		AA7FB8F82159CD5300E778E4 /* DangNhapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7FB8F72159CD5300E778E4 /* DangNhapVC.swift */; };
 		AA7FB8FB2159CD5300E778E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA7FB8F92159CD5300E778E4 /* Main.storyboard */; };
@@ -21,6 +23,7 @@
 		AA7FB9142159E79F00E778E4 /* DSPhimCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7FB9132159E79F00E778E4 /* DSPhimCell.swift */; };
 		AA7FB9162159F60900E778E4 /* Phim.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7FB9152159F60900E778E4 /* Phim.swift */; };
 		AA855F10215B267100F03C35 /* montserrat in Resources */ = {isa = PBXBuildFile; fileRef = AA855F0F215B267100F03C35 /* montserrat */; };
+		AAF70BCE215B799C00409414 /* TaoPhimVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF70BCD215B799C00409414 /* TaoPhimVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,8 @@
 		8CD06147627629D199FF5563 /* Pods_Cinema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Cinema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA3CBE06215A25DD0061E88E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AA3CBE0A215A2FBC0061E88E /* ListFilm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFilm.swift; sourceTree = "<group>"; };
+		AA3F3435215B49440039EF4B /* LoginToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginToken.swift; sourceTree = "<group>"; };
+		AA3F3437215B65390039EF4B /* LoginUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUser.swift; sourceTree = "<group>"; };
 		AA7FB8F22159CD5300E778E4 /* Cinema.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cinema.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA7FB8F52159CD5300E778E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AA7FB8F72159CD5300E778E4 /* DangNhapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DangNhapVC.swift; sourceTree = "<group>"; };
@@ -41,6 +46,7 @@
 		AA7FB9132159E79F00E778E4 /* DSPhimCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSPhimCell.swift; sourceTree = "<group>"; };
 		AA7FB9152159F60900E778E4 /* Phim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phim.swift; sourceTree = "<group>"; };
 		AA855F0F215B267100F03C35 /* montserrat */ = {isa = PBXFileReference; lastKnownFileType = folder; path = montserrat; sourceTree = "<group>"; };
+		AAF70BCD215B799C00409414 /* TaoPhimVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaoPhimVC.swift; sourceTree = "<group>"; };
 		D6DED22099C29B37986D7F75 /* Pods-Cinema.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cinema.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cinema/Pods-Cinema.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,6 +114,9 @@
 				AA855F0F215B267100F03C35 /* montserrat */,
 				AA3CBE06215A25DD0061E88E /* User.swift */,
 				AA3CBE0A215A2FBC0061E88E /* ListFilm.swift */,
+				AA3F3435215B49440039EF4B /* LoginToken.swift */,
+				AA3F3437215B65390039EF4B /* LoginUser.swift */,
+				AAF70BCD215B799C00409414 /* TaoPhimVC.swift */,
 			);
 			path = Cinema;
 			sourceTree = "<group>";
@@ -191,10 +200,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Cinema/Pods-Cinema-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/HSDatePickerViewController/HSDatePickerViewController.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HSDatePickerViewController.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -229,9 +240,12 @@
 				AA7FB9102159E50500E778E4 /* DangKyVC.swift in Sources */,
 				AA3CBE0B215A2FBC0061E88E /* ListFilm.swift in Sources */,
 				AA7FB9162159F60900E778E4 /* Phim.swift in Sources */,
+				AA3F3436215B49440039EF4B /* LoginToken.swift in Sources */,
 				AA7FB8F82159CD5300E778E4 /* DangNhapVC.swift in Sources */,
 				AA7FB9142159E79F00E778E4 /* DSPhimCell.swift in Sources */,
+				AA3F3438215B65390039EF4B /* LoginUser.swift in Sources */,
 				AA7FB8F62159CD5300E778E4 /* AppDelegate.swift in Sources */,
+				AAF70BCE215B799C00409414 /* TaoPhimVC.swift in Sources */,
 				AA7FB90E2159E4DA00E778E4 /* DSPhimTBVC.swift in Sources */,
 				AA3CBE07215A25DD0061E88E /* User.swift in Sources */,
 			);
