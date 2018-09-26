@@ -81,8 +81,9 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
             switch response.result {
             case .success:
                 print(response)
-                print(dateSt)
-                //self.performSegue(withIdentifier: "goDangNhap", sender: self)
+                
+                self.navigationController?.popViewController(animated: true)
+                self.dismiss(animated: true, completion: nil)
                 break
             case .failure(let error):
                 
@@ -126,4 +127,8 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
         }
     }
 
+    @IBAction func backBtn(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
 }
