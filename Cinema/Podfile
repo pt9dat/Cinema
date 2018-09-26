@@ -8,5 +8,6 @@ target 'Cinema' do
   # Pods for Cinema
   #pod 'FontAwesome.swift'
   pod 'Alamofire', '~> 4.7'
+  pod 'HSDatePickerViewController', '~> 1.0'
 
 end
