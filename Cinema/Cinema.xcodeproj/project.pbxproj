@@ -20,6 +20,7 @@
 		AA7FB9102159E50500E778E4 /* DangKyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7FB90F2159E50500E778E4 /* DangKyVC.swift */; };
 		AA7FB9142159E79F00E778E4 /* DSPhimCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7FB9132159E79F00E778E4 /* DSPhimCell.swift */; };
 		AA7FB9162159F60900E778E4 /* Phim.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7FB9152159F60900E778E4 /* Phim.swift */; };
+		AA855F10215B267100F03C35 /* montserrat in Resources */ = {isa = PBXBuildFile; fileRef = AA855F0F215B267100F03C35 /* montserrat */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		AA7FB90F2159E50500E778E4 /* DangKyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DangKyVC.swift; sourceTree = "<group>"; };
 		AA7FB9132159E79F00E778E4 /* DSPhimCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSPhimCell.swift; sourceTree = "<group>"; };
 		AA7FB9152159F60900E778E4 /* Phim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phim.swift; sourceTree = "<group>"; };
+		AA855F0F215B267100F03C35 /* montserrat */ = {isa = PBXFileReference; lastKnownFileType = folder; path = montserrat; sourceTree = "<group>"; };
 		D6DED22099C29B37986D7F75 /* Pods-Cinema.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cinema.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cinema/Pods-Cinema.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,6 +105,7 @@
 				AA7FB90F2159E50500E778E4 /* DangKyVC.swift */,
 				AA7FB9132159E79F00E778E4 /* DSPhimCell.swift */,
 				AA7FB9152159F60900E778E4 /* Phim.swift */,
+				AA855F0F215B267100F03C35 /* montserrat */,
 				AA3CBE06215A25DD0061E88E /* User.swift */,
 				AA3CBE0A215A2FBC0061E88E /* ListFilm.swift */,
 			);
@@ -171,6 +174,7 @@
 			files = (
 				AA7FB9002159CD5400E778E4 /* LaunchScreen.storyboard in Resources */,
 				AA7FB8FD2159CD5400E778E4 /* Assets.xcassets in Resources */,
+				AA855F10215B267100F03C35 /* montserrat in Resources */,
 				AA7FB9082159DF7800E778E4 /* DSPhimCell.xib in Resources */,
 				AA7FB8FB2159CD5300E778E4 /* Main.storyboard in Resources */,
 			);
@@ -306,7 +310,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -361,7 +365,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -377,6 +381,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2R6U9FW862;
 				INFOPLIST_FILE = Cinema/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -395,6 +400,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2R6U9FW862;
 				INFOPLIST_FILE = Cinema/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

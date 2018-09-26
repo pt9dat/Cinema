@@ -27,7 +27,15 @@ class DSPhimTBVC: UITableViewController {
     }
 
     // MARK: - Table view data source
-
+    @IBAction func backBtn(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func dangXuatBtn(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -35,14 +43,18 @@ class DSPhimTBVC: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 10
+        return listPhim.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! DSPhimCell
      //render data
-       
+        let phim = listPhim[indexPath.row]
+       cell.tenPhimTF.text = phim.title
+        cell.theLoaiTF.text = phim.genre
+        cell.userTF.text = phim.creatorId
+        cell.dateTF.text = phim.createdAt
 
         return cell
     }
@@ -59,7 +71,8 @@ class DSPhimTBVC: UITableViewController {
                     return
                     
                 }
-                print(list)
+               
+                self.listPhim = list.movies
                 
                 self.tableView.reloadData()
                 

@@ -9,7 +9,7 @@
 import Foundation
 
 struct ListFilm {
-    var movies: [Phim]
+    var movies=[Phim]()
     
     enum FilmCodingKeys: String, CodingKey {
         case movies
