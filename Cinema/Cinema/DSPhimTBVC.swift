@@ -9,16 +9,22 @@
 import UIKit
 import Alamofire
 
-class DSPhimTBVC: UITableViewController {
+class DSPhimTBVC:  UIViewController, UISearchBarDelegate, UITableViewDelegate {
     
+    @IBOutlet weak var tbView: UITableView!
+    @IBOutlet weak var seachBarOutlet: UISearchBar!
     var listPhim = [Phim]()
+    var filterData = [Phim]()
+    var isSearching = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.register(UINib(nibName: "DSPhimCell", bundle: nil), forCellReuseIdentifier: "cell")
-        self.tableView.delegate = self
+        tbView.register(UINib(nibName: "DSPhimCell", bundle: nil), forCellReuseIdentifier: "phimCell1")
+        tbView.delegate = self
+        tbView.dataSource = self
+        seachBarOutlet.delegate = self
         parseJSON()
-        //self.tableView.register(customCell.self, forCellReuseIdentifier: "cell")
+        //self.tableView.register(customCeViewll.self, forCellReuseIdentifier: "cell")
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -27,7 +33,8 @@ class DSPhimTBVC: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        tableView.reloadData()
+        
+        parseJSON()
         print("reload Data")
     }
 
@@ -36,7 +43,8 @@ class DSPhimTBVC: UITableViewController {
         performSegue(withIdentifier: "goTaoPhim", sender: self)
     }
     
-    @IBAction func dangXuatBtn(_ sender: UIButton) {
+
+    @IBAction func dangXuatBtn(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: "Xác nhận", message: "Bạn có muốn đăng xuất?", preferredStyle: .alert)
         // actions
         let yesBtn = UIAlertAction(title: "Có", style: .default) { (btn) in
@@ -59,32 +67,11 @@ class DSPhimTBVC: UITableViewController {
         
         
     }
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return listPhim.count
-    }
-
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! DSPhimCell
-     //render data
-        let phim = listPhim[indexPath.row]
-       cell.tenPhimTF.text = phim.title
-        cell.theLoaiTF.text = phim.genre
-        cell.userTF.text = dateConvert(date: phim.release)
-        cell.dateTF.text = dateConvert(date: phim.createdAt)
-
-        return cell
-    }
+ 
     
     
     func parseJSON() {
-        let jsonURLString = baseURL + "api/cinema"
+        let jsonURLString = baseURL + "/api/cinema"
         guard let url = URL(string: jsonURLString) else {return}
         Alamofire.request(url).responseJSON { [weak self](response) in
             guard let `self` = self else { return }
@@ -97,7 +84,7 @@ class DSPhimTBVC: UITableViewController {
                
                 self.listPhim = list.movies
                 
-                self.tableView.reloadData()
+                self.tbView.reloadData()
                 
                
                     
@@ -107,26 +94,34 @@ class DSPhimTBVC: UITableViewController {
                 
             }
         }
-           
-       
-        
-        
-        
-//        let jsonURLString = "https://nam-cinema.herokuapp.com/api/v1/movies/"
-//        guard let url = URL(string: jsonURLString) else {return}
-//        URLSession.shared.dataTask(with: url) { (data, res, err) in
-//            guard let data = data else {return}
-//            let dataAsString = String(data: data, encoding: .utf8)
-//            print(dataAsString)
-//
-//        }.resume()
     }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text == nil || searchBar.text == "" {
+            isSearching = false
+            //view.endEditing(true)
+            tbView.reloadData()
+        } else {
+            isSearching = true
+            for phim in listPhim {
+                
+                filterData = listPhim.filter({ (phim) -> Bool in
+                    return phim.title.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: nil).contains(searchText.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: nil)) || dateConvert(date: phim.release).folding(options: [.diacriticInsensitive, .caseInsensitive], locale: nil).contains(searchText.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: nil)) || dateConvert(date: phim.createdAt).folding(options: [.diacriticInsensitive, .caseInsensitive], locale: nil).contains(searchText.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: nil)) || phim.description.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: nil).contains(searchText.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: nil))
+                    })
+                tbView.reloadData()
+                }
+            
+        
+        }
+    }
+    
+    
     func dateConvert(date: Double) -> String {
         let date = Date(timeIntervalSince1970: date)
         let dateFormatter = DateFormatter()
 //        dateFormatter.timeZone = TimeZone(abbreviation: "GMT") //Set timezone that you want
-        dateFormatter.locale = NSLocale.current
-        dateFormatter.dateFormat = "dd/MM/YYYY" //Specify your format that you want
+//        dateFormatter.locale = NSLocale.current
+        dateFormatter.dateFormat = "dd/MM/yyyy" //Specify your format that you want
         let strDate = dateFormatter.string(from: date)
         return strDate
     }
@@ -174,10 +169,62 @@ class DSPhimTBVC: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goChiTietPhim", sender: self)
+    }
+    
+    func getImage(posterUrl:String)->UIImage {
+        let url = baseURL + posterUrl
+        var img = UIImage()
+        Alamofire.request(url, method: .get).responseData { response in
+            if let data = response.result.value {
+                img = UIImage(data: data)!
+                print("OK IMG")
+            } else {
+                print("error")
+            }
+        }
+        return img
+    }
+    
 
 }
 extension DSPhimTBVC {
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
+    }
+}
+
+
+extension DSPhimTBVC: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isSearching {
+            return filterData.count
+        }
+        return listPhim.count
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "phimCell1") as! DSPhimCell
+        //render data
+        let phim : Phim
+        if isSearching {
+            phim = filterData[indexPath.row]
+        } else {
+            phim = listPhim[indexPath.row]
+        }
+        cell.tenPhimTF.text = phim.title
+        cell.theLoaiTF.text = phim.genre
+        cell.userTF.text = phim.description
+        cell.dateTF.text = dateConvert(date: phim.release)
+        cell.imgIV.image = getImage(posterUrl: phim.cover)
+        
+        return cell
     }
 }

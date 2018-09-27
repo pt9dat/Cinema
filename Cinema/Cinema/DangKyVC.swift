@@ -50,7 +50,7 @@ class DangKyVC: UIViewController {
     @IBAction func dangKyBtn(_ sender: UIButton) {
         if passTF.text == confPassTF.text {
         let info : [String: String] = ["email" : mailTF.text!, "name" : userNameTF.text!, "password" : passTF.text!]
-        let jsonURLString = "https://cinema-hatin.herokuapp.com/api/auth/signup"
+        let jsonURLString = baseURL + "/api/auth/signup"
         guard let url = URL(string: jsonURLString) else {return}
         Alamofire.request(url, method: .post, parameters: info, encoding: JSONEncoding.default).responseJSON { (response) in
             switch response.result {

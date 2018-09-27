@@ -8,4 +8,4 @@
 
 import Foundation
 
-let baseURL = "https://cinema-hatin.herokuapp.com/"
+let baseURL = "https://cinema-hatin.herokuapp.com"

@@ -50,7 +50,7 @@ class DangNhapVC: UIViewController {
 
     @IBAction func dangNhapBtn(_ sender: UIButton) {
         let info : [String: String] = ["email" : mailTF.text!, "password" : passTF.text!]
-        let jsonURLString = "https://cinema-hatin.herokuapp.com/api/auth/signin"
+        let jsonURLString = baseURL + "/api/auth/signin"
         guard let url = URL(string: jsonURLString) else {return}
         Alamofire.request(url, method: .post, parameters: info, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
             switch response.result {

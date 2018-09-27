@@ -21,9 +21,9 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
     @IBOutlet weak var tenPhimTF: UITextField!
     @IBOutlet weak var theLoaiTF: UITextField!
     @IBOutlet weak var ngayPhatHanhTF: UITextField!
-    @IBOutlet weak var moTaTF: UITextField!
     @IBOutlet weak var theLoaiPickerView: UIPickerView!
     @IBOutlet weak var posterImg: UIImageView!
+    @IBOutlet weak var moTaTV: UITextView!
     
     let datePK = HSDatePickerViewController()
     let imgPicker = UIImagePickerController()
@@ -74,24 +74,26 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
     var multipartHeaders: HTTPHeaders  {
         return
         [
-        "Content-type": "multipart/form-data",
+        
         "x-access-token": DangNhapVC.userDefault.string(forKey: "token")!
         ]
     }
     
     @IBAction func taoPhimBtn(_ sender: UIButton) {
-        var dfmatter = DateFormatter()
-        dfmatter.dateFormat="dd/MM/YYYY"
-        var date = dfmatter.date(from: ngayPhatHanhTF.text!)
-        var dateStamp:TimeInterval = date!.timeIntervalSince1970
-        var dateSt:Int = Int(dateStamp)
+        let dfmatter = DateFormatter()
+//        dfmatter.timeZone = TimeZone(abbreviation: "GMT") //Set timezone that you want
+//        dfmatter.locale = NSLocale.current
+        dfmatter.dateFormat="dd/MM/yyyy"
+        let date = dfmatter.date(from: ngayPhatHanhTF.text!)
+        let dateStamp:TimeInterval = date!.timeIntervalSince1970
+        let dateSt:Int = Int(dateStamp)
         
         let creatorID = DangNhapVC.userDefault.string(forKey: "userID")
-        let userName = DangNhapVC.userDefault.string(forKey: "userName")
-        print(creatorID! + userName!)
+
+        print(creatorID!)
         
-        let info : [String: Any] = ["name" : tenPhimTF.text!, "genre" : theLoaiTF.text!, "releaseDate" : dateSt, "content" : moTaTF.text!, "creatorId" : creatorID!, "username" : userName! ]
-        let url = baseURL + "api/cinema/"
+        let info : [String: Any] = ["name" : tenPhimTF.text!, "genre" : theLoaiTF.text!, "releaseDate" : dateSt, "content" : moTaTV.text!, "creatorId" : creatorID!]
+        let url = baseURL + "/api/cinema/"
         
         //guard let url = URL(string: jsonURLString) else {return}
         Alamofire.upload(multipartFormData: { (multipartFormData) in
@@ -100,12 +102,14 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
             }
             if let data = UIImage.jpegData(self.img)(compressionQuality: 1) {
 
-            multipartFormData.append(data, withName: "posterURL", fileName: "dattest.jpg", mimeType: "image/jpeq")
+            multipartFormData.append(data, withName: "file", fileName: "dattest.jpg", mimeType: "image/jpeq")
             }
         
-        }, to: url, method: .post, headers: multipartHeaders)  { encodingResult in
+        }, to: url, method: .post, headers: nil)  { encodingResult in
             switch encodingResult {
             case .success(let upload, _, _):
+                self.navigationController?.popViewController(animated: true)
+                self.dismiss(animated: true, completion: nil)
                 upload.responseJSON { response in
                     debugPrint(response)
                 }
