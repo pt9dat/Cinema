@@ -23,6 +23,7 @@
 		AA7FB9142159E79F00E778E4 /* DSPhimCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7FB9132159E79F00E778E4 /* DSPhimCell.swift */; };
 		AA7FB9162159F60900E778E4 /* Phim.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7FB9152159F60900E778E4 /* Phim.swift */; };
 		AA855F10215B267100F03C35 /* montserrat in Resources */ = {isa = PBXBuildFile; fileRef = AA855F0F215B267100F03C35 /* montserrat */; };
+		AAEE6326215C6D4300D58C40 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEE6325215C6D4300D58C40 /* Constant.swift */; };
 		AAF70BCE215B799C00409414 /* TaoPhimVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF70BCD215B799C00409414 /* TaoPhimVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 		AA7FB9132159E79F00E778E4 /* DSPhimCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSPhimCell.swift; sourceTree = "<group>"; };
 		AA7FB9152159F60900E778E4 /* Phim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phim.swift; sourceTree = "<group>"; };
 		AA855F0F215B267100F03C35 /* montserrat */ = {isa = PBXFileReference; lastKnownFileType = folder; path = montserrat; sourceTree = "<group>"; };
+		AAEE6325215C6D4300D58C40 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		AAF70BCD215B799C00409414 /* TaoPhimVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaoPhimVC.swift; sourceTree = "<group>"; };
 		D6DED22099C29B37986D7F75 /* Pods-Cinema.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cinema.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cinema/Pods-Cinema.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -117,6 +119,7 @@
 				AA3F3435215B49440039EF4B /* LoginToken.swift */,
 				AA3F3437215B65390039EF4B /* LoginUser.swift */,
 				AAF70BCD215B799C00409414 /* TaoPhimVC.swift */,
+				AAEE6325215C6D4300D58C40 /* Constant.swift */,
 			);
 			path = Cinema;
 			sourceTree = "<group>";
@@ -248,6 +251,7 @@
 				AAF70BCE215B799C00409414 /* TaoPhimVC.swift in Sources */,
 				AA7FB90E2159E4DA00E778E4 /* DSPhimTBVC.swift in Sources */,
 				AA3CBE07215A25DD0061E88E /* User.swift in Sources */,
+				AAEE6326215C6D4300D58C40 /* Constant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,7 +401,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2R6U9FW862;
 				INFOPLIST_FILE = Cinema/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ChinhDat.Cinema;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -413,7 +420,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2R6U9FW862;
 				INFOPLIST_FILE = Cinema/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ChinhDat.Cinema;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;

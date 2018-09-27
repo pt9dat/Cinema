@@ -13,22 +13,23 @@ struct User {
     var avatar : String = ""
     var username : String = ""
     var email : String = ""
+    var password : String = ""
     
 
 
 
 enum UserCodingKey : String, CodingKey {
-    case avatar, username, email
+    case avatarURL, username, email, password
     case _id
 }
 }
 extension User: Decodable {
     init(from decoder : Decoder) throws {
         let values = try decoder.container(keyedBy: UserCodingKey.self)
-        self.id = try values.decode(String.self, forKey: ._id)
-        self.avatar = try values.decode(String.self, forKey: .avatar)
-        self.username = try values.decode(String.self, forKey: .username)
-        self.email = try values.decode(String.self, forKey: .email)
-        
+        self.id = try values.decodeIfPresent(String.self, forKey: ._id) ?? ""
+        self.avatar = try values.decodeIfPresent(String.self, forKey: .avatarURL) ?? ""
+        self.username = try values.decodeIfPresent(String.self, forKey: .username) ?? ""
+        self.email = try values.decodeIfPresent(String.self, forKey: .email) ?? ""
+        self.password = try values.decodeIfPresent(String.self, forKey: .password) ?? ""
     }
 }

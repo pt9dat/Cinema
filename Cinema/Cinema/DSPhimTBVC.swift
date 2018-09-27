@@ -76,21 +76,21 @@ class DSPhimTBVC: UITableViewController {
         let phim = listPhim[indexPath.row]
        cell.tenPhimTF.text = phim.title
         cell.theLoaiTF.text = phim.genre
-        cell.userTF.text = phim.creatorId
-        cell.dateTF.text = phim.createdAt
+        cell.userTF.text = dateConvert(date: phim.release)
+        cell.dateTF.text = dateConvert(date: phim.createdAt)
 
         return cell
     }
     
     
     func parseJSON() {
-        let jsonURLString = "https://nam-cinema.herokuapp.com/api/v1/movies/"
+        let jsonURLString = baseURL + "api/cinema"
         guard let url = URL(string: jsonURLString) else {return}
         Alamofire.request(url).responseJSON { [weak self](response) in
             guard let `self` = self else { return }
             if response.result.isSuccess {
                 guard let list = try? JSONDecoder().decode(ListFilm.self, from: response.data!) else {
-                    print("error")
+                    print("error load")
                     return
                     
                 }
@@ -108,7 +108,7 @@ class DSPhimTBVC: UITableViewController {
             }
         }
            
-        
+       
         
         
         
@@ -121,7 +121,15 @@ class DSPhimTBVC: UITableViewController {
 //
 //        }.resume()
     }
-
+    func dateConvert(date: Double) -> String {
+        let date = Date(timeIntervalSince1970: date)
+        let dateFormatter = DateFormatter()
+//        dateFormatter.timeZone = TimeZone(abbreviation: "GMT") //Set timezone that you want
+        dateFormatter.locale = NSLocale.current
+        dateFormatter.dateFormat = "dd/MM/YYYY" //Specify your format that you want
+        let strDate = dateFormatter.string(from: date)
+        return strDate
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

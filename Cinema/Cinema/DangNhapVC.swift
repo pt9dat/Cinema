@@ -17,7 +17,8 @@ class DangNhapVC: UIViewController {
     @IBOutlet weak var dangKyBtnOulet: UIButton!
     
     //var user = LoginUser()
-    let userDefault = UserDefaults.standard
+    static var userDefault = UserDefaults.standard
+
     
     
     override func viewDidLoad() {
@@ -62,10 +63,10 @@ class DangNhapVC: UIViewController {
                 }
                 //self.user = getUser.loginUser.
                 
-                self.userDefault.set(getUser.token, forKey: "token")
-                self.userDefault.set(getUser.loginUser.id, forKey: "userID")
-                self.userDefault.set(getUser.loginUser.name, forKey: "userName")
-                self.userDefault.set(getUser.loginUser.email, forKey: "userEmail")
+                DangNhapVC.userDefault.set(getUser.token, forKey: "token")
+                DangNhapVC.userDefault.set(getUser.loginUser.id, forKey: "userID")
+                DangNhapVC.userDefault.set(getUser.loginUser.name, forKey: "userName")
+                DangNhapVC.userDefault.set(getUser.loginUser.email, forKey: "userEmail")
                 //print(self.userDefault.string(forKey: "userName")!)
                 
                 //self.performSegue(withIdentifier: "goDSPhim", sender: self)

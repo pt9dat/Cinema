@@ -10,7 +10,7 @@ import UIKit
 import HSDatePickerViewController
 import Alamofire
 
-class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   
     
     
@@ -23,7 +23,11 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
     @IBOutlet weak var ngayPhatHanhTF: UITextField!
     @IBOutlet weak var moTaTF: UITextField!
     @IBOutlet weak var theLoaiPickerView: UIPickerView!
+    @IBOutlet weak var posterImg: UIImageView!
+    
     let datePK = HSDatePickerViewController()
+    let imgPicker = UIImagePickerController()
+    var img = UIImage()
     let listTheLoai = ["Hành động", "Tâm lý", "Kinh dị", "Khoa học viễn tưởng", "Hài"]
     
     
@@ -50,6 +54,7 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
         datePK.delegate = self
         theLoaiPickerView.delegate = self
         theLoaiTF.delegate = self
+        imgPicker.delegate = self
         // Do any additional setup after loading the view.
     }
     
@@ -66,6 +71,13 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
         ngayPhatHanhTF.text = dateFormater.string(from: date)
         
     }
+    var multipartHeaders: HTTPHeaders  {
+        return
+        [
+        "Content-type": "multipart/form-data",
+        "x-access-token": DangNhapVC.userDefault.string(forKey: "token")!
+        ]
+    }
     
     @IBAction func taoPhimBtn(_ sender: UIButton) {
         var dfmatter = DateFormatter()
@@ -73,26 +85,37 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
         var date = dfmatter.date(from: ngayPhatHanhTF.text!)
         var dateStamp:TimeInterval = date!.timeIntervalSince1970
         var dateSt:Int = Int(dateStamp)
+        
+        let creatorID = DangNhapVC.userDefault.string(forKey: "userID")
+        let userName = DangNhapVC.userDefault.string(forKey: "userName")
+        print(creatorID! + userName!)
+        
+        let info : [String: Any] = ["name" : tenPhimTF.text!, "genre" : theLoaiTF.text!, "releaseDate" : dateSt, "content" : moTaTF.text!, "creatorId" : creatorID!, "username" : userName! ]
+        let url = baseURL + "api/cinema/"
+        
+        //guard let url = URL(string: jsonURLString) else {return}
+        Alamofire.upload(multipartFormData: { (multipartFormData) in
+            for (key, values) in info {
+                multipartFormData.append("\(values)".data(using: String.Encoding.utf8)!, withName: key as String)
+            }
+            if let data = UIImage.jpegData(self.img)(compressionQuality: 1) {
 
-        let info : [String: Any] = ["name" : tenPhimTF.text!, "genre" : theLoaiTF.text!, "releaseDate" : dateSt, "content" : moTaTF.text!]
-        let jsonURLString = "https://cinema-hatin.herokuapp.com/api/cinema/"
-        guard let url = URL(string: jsonURLString) else {return}
-        Alamofire.request(url, method: .post, parameters: info, encoding: JSONEncoding.default).responseJSON { (response) in
-            switch response.result {
-            case .success:
-                print(response)
-                
-                self.navigationController?.popViewController(animated: true)
-                self.dismiss(animated: true, completion: nil)
-                break
-            case .failure(let error):
-                
-                print(error)
-                
+            multipartFormData.append(data, withName: "posterURL", fileName: "dattest.jpg", mimeType: "image/jpeq")
             }
         
-        
-    }
+        }, to: url, method: .post, headers: multipartHeaders)  { encodingResult in
+            switch encodingResult {
+            case .success(let upload, _, _):
+                upload.responseJSON { response in
+                    debugPrint(response)
+                }
+                
+                upload.uploadProgress{ print("-----> ", $0.fractionCompleted)}
+            case .failure(let encodingError):
+                print(encodingError)
+            }
+        }
+    
 
        
     }
@@ -129,6 +152,22 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
 
     @IBAction func backBtn(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
+    @IBAction func chonAnhBtn(_ sender: Any) {
+        imgPicker.allowsEditing = false
+        imgPicker.sourceType = .photoLibrary
+        
+        present(imgPicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            posterImg.contentMode = .scaleAspectFit
+            posterImg.image = pickedImage
+            img = pickedImage
+        }
+        
         dismiss(animated: true, completion: nil)
     }
 }

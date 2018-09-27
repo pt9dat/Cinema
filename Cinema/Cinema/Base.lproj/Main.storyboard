@@ -36,6 +36,9 @@
                                 <state key="normal" title="Chọn ảnh">
                                     <color key="titleColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="chonAnhBtn:" destination="u5N-NM-2fc" eventType="touchUpInside" id="uMD-Ss-VXo"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tên phim" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pRU-BU-DCB">
                                 <rect key="frame" x="16" y="242" width="71" height="21"/>
@@ -135,6 +138,7 @@
                         <outlet property="chonAnhOutlet" destination="c31-Vk-69y" id="uRt-ds-uU8"/>
                         <outlet property="moTaTF" destination="X18-BV-aOE" id="nn8-zs-EtF"/>
                         <outlet property="ngayPhatHanhTF" destination="9Ac-uP-NaJ" id="Tmw-9J-6P5"/>
+                        <outlet property="posterImg" destination="fqa-jf-T0m" id="SQl-bK-bd6"/>
                         <outlet property="taoPhimOutlet" destination="o1P-BO-83r" id="6gL-xZ-ZNI"/>
                         <outlet property="tenPhimTF" destination="BgT-Kk-jKk" id="NAc-YW-jye"/>
                         <outlet property="theLoaiPickerView" destination="87H-T0-orF" id="N7E-F8-uEj"/>
@@ -379,7 +383,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="LoC-bP-1i4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="sectionIndexBackgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
                         <navigationBar key="tableHeaderView" contentMode="scaleToFill" translucent="NO" id="Fhm-Hi-VcL">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
