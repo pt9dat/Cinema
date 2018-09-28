@@ -12,6 +12,8 @@
 		AA3CBE0B215A2FBC0061E88E /* ListFilm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CBE0A215A2FBC0061E88E /* ListFilm.swift */; };
 		AA3F3436215B49440039EF4B /* LoginToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3F3435215B49440039EF4B /* LoginToken.swift */; };
 		AA3F3438215B65390039EF4B /* LoginUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3F3437215B65390039EF4B /* LoginUser.swift */; };
+		AA47259B215E09DA00D168DF /* UserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA47259A215E09DA00D168DF /* UserVC.swift */; };
+		AA47259D215E221C00D168DF /* RegisterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA47259C215E221C00D168DF /* RegisterUser.swift */; };
 		AA4ED910215DB9E900A6C368 /* ChiTietPhimVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4ED90F215DB9E900A6C368 /* ChiTietPhimVC.swift */; };
 		AA7FB8F62159CD5300E778E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7FB8F52159CD5300E778E4 /* AppDelegate.swift */; };
 		AA7FB8F82159CD5300E778E4 /* DangNhapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7FB8F72159CD5300E778E4 /* DangNhapVC.swift */; };
@@ -35,6 +37,8 @@
 		AA3CBE0A215A2FBC0061E88E /* ListFilm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFilm.swift; sourceTree = "<group>"; };
 		AA3F3435215B49440039EF4B /* LoginToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginToken.swift; sourceTree = "<group>"; };
 		AA3F3437215B65390039EF4B /* LoginUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUser.swift; sourceTree = "<group>"; };
+		AA47259A215E09DA00D168DF /* UserVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVC.swift; sourceTree = "<group>"; };
+		AA47259C215E221C00D168DF /* RegisterUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUser.swift; sourceTree = "<group>"; };
 		AA4ED90F215DB9E900A6C368 /* ChiTietPhimVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChiTietPhimVC.swift; sourceTree = "<group>"; };
 		AA7FB8F22159CD5300E778E4 /* Cinema.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cinema.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA7FB8F52159CD5300E778E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -107,6 +111,7 @@
 				AA7FB8F52159CD5300E778E4 /* AppDelegate.swift */,
 				AA7FB8F72159CD5300E778E4 /* DangNhapVC.swift */,
 				AA7FB8F92159CD5300E778E4 /* Main.storyboard */,
+				AA47259C215E221C00D168DF /* RegisterUser.swift */,
 				AA7FB9072159DF7800E778E4 /* DSPhimCell.xib */,
 				AA7FB8FC2159CD5400E778E4 /* Assets.xcassets */,
 				AA7FB8FE2159CD5400E778E4 /* LaunchScreen.storyboard */,
@@ -123,6 +128,7 @@
 				AAF70BCD215B799C00409414 /* TaoPhimVC.swift */,
 				AAEE6325215C6D4300D58C40 /* Constant.swift */,
 				AA4ED90F215DB9E900A6C368 /* ChiTietPhimVC.swift */,
+				AA47259A215E09DA00D168DF /* UserVC.swift */,
 			);
 			path = Cinema;
 			sourceTree = "<group>";
@@ -207,11 +213,13 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Cinema/Pods-Cinema-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/HSDatePickerViewController/HSDatePickerViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/Toast/Toast.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HSDatePickerViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -250,8 +258,10 @@
 				AA3F3436215B49440039EF4B /* LoginToken.swift in Sources */,
 				AA7FB8F82159CD5300E778E4 /* DangNhapVC.swift in Sources */,
 				AA7FB9142159E79F00E778E4 /* DSPhimCell.swift in Sources */,
+				AA47259B215E09DA00D168DF /* UserVC.swift in Sources */,
 				AA3F3438215B65390039EF4B /* LoginUser.swift in Sources */,
 				AA7FB8F62159CD5300E778E4 /* AppDelegate.swift in Sources */,
+				AA47259D215E221C00D168DF /* RegisterUser.swift in Sources */,
 				AAF70BCE215B799C00409414 /* TaoPhimVC.swift in Sources */,
 				AA7FB90E2159E4DA00E778E4 /* DSPhimTBVC.swift in Sources */,
 				AA3CBE07215A25DD0061E88E /* User.swift in Sources */,

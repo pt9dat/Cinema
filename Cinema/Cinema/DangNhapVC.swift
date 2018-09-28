@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import Toast
 
 class DangNhapVC: UIViewController {
 
@@ -49,6 +50,14 @@ class DangNhapVC: UIViewController {
     }
 
     @IBAction func dangNhapBtn(_ sender: UIButton) {
+        if mailTF.text == "" && passTF.text == "" {
+            view.makeToast("Bạn phải nhập email và mật khẩu")
+        } else if passTF.text == ""{
+            view.makeToast("Bạn phải nhập mật khẩu")
+        } else if mailTF.text == "" {
+            view.makeToast("Bạn phải nhập email")
+        } else {
+
         let info : [String: String] = ["email" : mailTF.text!, "password" : passTF.text!]
         let jsonURLString = baseURL + "/api/auth/signin"
         guard let url = URL(string: jsonURLString) else {return}
@@ -61,17 +70,17 @@ class DangNhapVC: UIViewController {
                     return
                     
                 }
-                //self.user = getUser.loginUser.
+                
                 
                 DangNhapVC.userDefault.set(getUser.token, forKey: "token")
                 DangNhapVC.userDefault.set(getUser.loginUser.id, forKey: "userID")
                 DangNhapVC.userDefault.set(getUser.loginUser.name, forKey: "userName")
                 DangNhapVC.userDefault.set(getUser.loginUser.email, forKey: "userEmail")
                 //print(self.userDefault.string(forKey: "userName")!)
+                self.view.makeToast("Đăng nhập thành công.")
+                self.performSegue(withIdentifier: "goDSPhim", sender: self)
                 
-                //self.performSegue(withIdentifier: "goDSPhim", sender: self)
                 
-                //print(self.token.array(forKey: "token"))
                 
                 break
             case .failure(let error):
@@ -79,6 +88,7 @@ class DangNhapVC: UIViewController {
                 print(error)
             }
         }
+    }
         
     }
     @IBAction func dangKyBtn(_ sender: UIButton) {

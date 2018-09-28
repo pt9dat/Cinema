@@ -62,45 +62,46 @@ class DSPhimTBVC:  UIViewController, UISearchBarDelegate, UITableViewDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        self.tbView.bounces = true
+        UIApplication.shared.statusBarStyle = .lightContent
         parseJSON()
         print("reload Data")
+        if DangNhapVC.userDefault.string(forKey: "userID") == nil {
+            userInfoOutlet.isHidden = true
+        } else {
+            userInfoOutlet.isHidden = false
+        }
     }
 
    
     
     @IBAction func taoPhimBtn(_ sender: UIButton) {
-        if DangNhapVC.userDefault.string(forKey: "token") != nil {
+        print(DangNhapVC.userDefault.string(forKey: "token"))
+        if DangNhapVC.userDefault.string(forKey: "userID") != nil {
          performSegue(withIdentifier: "goTaoPhim", sender: self)
         } else {
-            performSegue(withIdentifier: "goDangNhap", sender: self)
+            let alert = UIAlertController(title: "Thông báo", message: "Bạn phải đăng nhập mới thực hiện được chức năng này.", preferredStyle: .alert)
+            // actions
+            let yesBtn = UIAlertAction(title: "Đăng nhập", style: .default) { (btn) in
+                
+                
+                self.performSegue(withIdentifier: "goDangNhap", sender: self); //self.navigationController?.popViewController(animated: true)
+                //self.dismiss(animated: true, completion: nil)
+                
+                
+                
+            }
+            let noBtn = UIAlertAction(title: "Hủy", style: .destructive) { (btn) in
+                print("Không")
+            }
+            alert.addAction(yesBtn)
+            alert.addAction(noBtn)
+            
+            
+            present(alert, animated: true, completion: nil)
+            
         }
     }
-    
-    @IBAction func dangXuatBtn(_ sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: "Xác nhận", message: "Bạn có muốn đăng xuất?", preferredStyle: .alert)
-        // actions
-        let yesBtn = UIAlertAction(title: "Có", style: .default) { (btn) in
-            
-            
-            self.navigationController?.popViewController(animated: true)
-            self.dismiss(animated: true, completion: nil)
-            
-        }
-        let noBtn = UIAlertAction(title: "Không", style: .destructive) { (btn) in
-            print("Không")
-        }
-        alert.addAction(yesBtn)
-        alert.addAction(noBtn)
-        
-        
-        present(alert, animated: true, completion: nil)
-        
-        
-        
-        
-    }
- 
     
     
     func parseJSON() {
@@ -203,7 +204,7 @@ class DSPhimTBVC:  UIViewController, UISearchBarDelegate, UITableViewDelegate {
     }
     */
     var index = 0
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         index = indexPath.row
         performSegue(withIdentifier: "goChiTietPhim", sender: self)
     }
@@ -218,6 +219,7 @@ class DSPhimTBVC:  UIViewController, UISearchBarDelegate, UITableViewDelegate {
                 controller.ngayPhatHanh = dateConvert(date: phim.release)
                 controller.ngayTao = dateConvert(date: phim.createdAt)
                 controller.moTa = phim.description
+                controller.userID = phim.creatorId
                 
             
         }
@@ -225,17 +227,28 @@ class DSPhimTBVC:  UIViewController, UISearchBarDelegate, UITableViewDelegate {
     
     func getImage(posterUrl:String)->UIImage {
         let url = baseURL + posterUrl
-        var img = UIImage()
-        Alamofire.request(url, method: .get).responseData { response in
-            if let data = response.result.value {
-                img = UIImage(data: data)!
-                print("OK IMG")
-            } else {
-                print("error")
-            }
+        var img = UIImage(named: "195151")!
+        Alamofire.request(url).response { (response) in
+            img = UIImage(data: response.data!, scale:1) ?? UIImage(named: "195151")!
         }
+        
+//        Alamofire.request(url).responseData { response in
+//            if let data = response.data {
+//                img = UIImage(data: data) ?? UIImage(named: "195151")!
+//                print("OK IMG: \(response.data)")
+//            } else {
+//                print("error")
+//            }
+//        }
         return img
     }
+    
+    @IBAction func userInfoBtn(_ sender: UIButton) {
+        
+        performSegue(withIdentifier: "goUserInfo", sender: self)
+            
+    }
+    
     
 
 }
@@ -273,8 +286,9 @@ extension DSPhimTBVC: UITableViewDataSource {
         cell.theLoaiTF.text = phim.genre
         cell.userTF.text = phim.description
         cell.dateTF.text = dateConvert(date: phim.release)
-        //cell.imgIV.image = getImage(posterUrl: phim.cover)
+        cell.imgIV.image = getImage(posterUrl: phim.cover)
         
         return cell
     }
 }
+

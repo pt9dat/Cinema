@@ -48,23 +48,33 @@ class DangKyVC: UIViewController {
     }
     
     @IBAction func dangKyBtn(_ sender: UIButton) {
-        if passTF.text == confPassTF.text {
-        let info : [String: String] = ["email" : mailTF.text!, "name" : userNameTF.text!, "password" : passTF.text!]
+        if mailTF.text == "" && passTF.text == "" && passTF.text == "" {
+            view.makeToast("Bạn phải nhập tên, email và mật khẩu")
+        } else if passTF.text == ""{
+            view.makeToast("Bạn phải nhập mật khẩu")
+        } else if mailTF.text == "" {
+            view.makeToast("Bạn phải nhập email")
+        } else
+        if passTF.text != confPassTF.text {
+            view.makeToast("Mật khẩu xác nhận không khớp")
+        } else {
+        let info : [String : String] = ["email" : mailTF.text!, "name" : userNameTF.text!, "password" : passTF.text!]
         let jsonURLString = baseURL + "/api/auth/signup"
         guard let url = URL(string: jsonURLString) else {return}
         Alamofire.request(url, method: .post, parameters: info, encoding: JSONEncoding.default).responseJSON { (response) in
             switch response.result {
             case .success:
-                guard let getUser = try? JSONDecoder().decode(LoginToken.self, from: response.data!) else {
+                print(response)
+                guard let getUser = try? JSONDecoder().decode(RegisterUser.self, from: response.data!) else {
                     print("error decode")
                     return
                     
                 }
-                print(response)
-                DangNhapVC.userDefault.set(getUser.token, forKey: "token")
-                DangNhapVC.userDefault.set(getUser.loginUser.id, forKey: "userID")
-                DangNhapVC.userDefault.set(getUser.loginUser.name, forKey: "userName")
-                DangNhapVC.userDefault.set(getUser.loginUser.email, forKey: "userEmail")
+                
+                //DangNhapVC.userDefault.set(getUser.token, forKey: "token")
+                DangNhapVC.userDefault.set(getUser.user.id, forKey: "userID")
+                DangNhapVC.userDefault.set(getUser.user.name, forKey: "userName")
+                DangNhapVC.userDefault.set(getUser.user.email, forKey: "userEmail")
                 self.performSegue(withIdentifier: "goDSPhim", sender: self)
                 break
             case .failure(let error):
@@ -73,10 +83,9 @@ class DangKyVC: UIViewController {
             }
         }
        
-        } else {
-            print("error")
         }
         //performSegue(withIdentifier: "goDangNhap", sender: self)
+
         
     }
     

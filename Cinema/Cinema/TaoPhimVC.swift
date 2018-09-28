@@ -27,6 +27,13 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
     let listTheLoai = ["Hành động", "Tâm lý", "Kinh dị", "Khoa học viễn tưởng", "Hài"]
     
     
+    var tenPhim : String?
+    var theLoai : String?
+    var ngayPhatHanh : String?
+    var moTa : String?
+    var poster = UIImage()
+    var userID : String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         chonAnhOutlet.layer.borderWidth = 5
@@ -51,22 +58,38 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
         theLoaiPickerView.delegate = self
         theLoaiTF.delegate = self
         imgPicker.delegate = self
-        // Do any additional setup after loading the view.
-    }
-    override func viewWillAppear(_ animated: Bool) {
+        
+        taoPhimOutlet.setTitle("Tạo phim", for: .normal)
         theLoaiTF.text = listTheLoai[1]
         let date = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "dd/MM/yyyy"
         let result = formatter.string(from: date)
         ngayPhatHanhTF.text = result
+        
+       
+        // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        
+                theLoaiTF.text = theLoai
+                tenPhimTF.text = tenPhim
+                ngayPhatHanhTF.text = ngayPhatHanh
+                moTaTV.text = moTa
+                taoPhimOutlet.setTitle("Sửa phim", for: .normal)
+                
+                
+     
+        
+        
+        
     }
     
+    
     @IBAction func ngayPhatHanhAction(_ sender: UITextField) {
-        
-        //hsDatePickerPickedDate(datePK.date)
         present(datePK, animated: true, completion: nil)
     }
+  
     
     func hsDatePickerPickedDate(_ date: Date!) {
         print("Date picked \(date)")
@@ -106,13 +129,21 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
         }, to: url, method: .post, headers: nil)  { encodingResult in
             switch encodingResult {
             case .success(let upload, _, _):
-                self.navigationController?.popViewController(animated: true)
-                self.dismiss(animated: true, completion: nil)
+                
                 upload.responseJSON { response in
                     debugPrint(response)
+                    
                 }
                 
-                upload.uploadProgress{ print("-----> ", $0.fractionCompleted)}
+                upload.uploadProgress{
+                    
+                    print("-----> ", $0.fractionCompleted)
+                    
+                }
+                print("done")
+                self.navigationController?.popViewController(animated: true)
+                self.dismiss(animated: true, completion: nil)
+                
             case .failure(let encodingError):
                 print(encodingError)
             }
