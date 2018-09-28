@@ -11,10 +11,6 @@ import HSDatePickerViewController
 import Alamofire
 
 class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-  
-    
-    
-    
 
     @IBOutlet weak var chonAnhOutlet: UIButton!
     @IBOutlet weak var taoPhimOutlet: UIButton!
@@ -57,6 +53,14 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
         imgPicker.delegate = self
         // Do any additional setup after loading the view.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        theLoaiTF.text = listTheLoai[1]
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        let result = formatter.string(from: date)
+        ngayPhatHanhTF.text = result
+    }
     
     @IBAction func ngayPhatHanhAction(_ sender: UITextField) {
         
@@ -66,18 +70,12 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
     
     func hsDatePickerPickedDate(_ date: Date!) {
         print("Date picked \(date)")
-        var dateFormater = DateFormatter()
-        dateFormater.dateFormat = "dd/MM/YYYY"
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "dd/MM/yyyy"
         ngayPhatHanhTF.text = dateFormater.string(from: date)
         
     }
-    var multipartHeaders: HTTPHeaders  {
-        return
-        [
-        
-        "x-access-token": DangNhapVC.userDefault.string(forKey: "token")!
-        ]
-    }
+ 
     
     @IBAction func taoPhimBtn(_ sender: UIButton) {
         let dfmatter = DateFormatter()
@@ -95,7 +93,7 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
         let info : [String: Any] = ["name" : tenPhimTF.text!, "genre" : theLoaiTF.text!, "releaseDate" : dateSt, "content" : moTaTV.text!, "creatorId" : creatorID!]
         let url = baseURL + "/api/cinema/"
         
-        //guard let url = URL(string: jsonURLString) else {return}
+        
         Alamofire.upload(multipartFormData: { (multipartFormData) in
             for (key, values) in info {
                 multipartFormData.append("\(values)".data(using: String.Encoding.utf8)!, withName: key as String)

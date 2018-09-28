@@ -17,6 +17,8 @@ class DSPhimTBVC:  UIViewController, UISearchBarDelegate, UITableViewDelegate {
     var filterData = [Phim]()
     var isSearching = false
 
+    @IBOutlet weak var userInfoOutlet: UIButton!
+    @IBOutlet weak var taoPhimOutlet: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         tbView.register(UINib(nibName: "DSPhimCell", bundle: nil), forCellReuseIdentifier: "phimCell1")
@@ -24,6 +26,33 @@ class DSPhimTBVC:  UIViewController, UISearchBarDelegate, UITableViewDelegate {
         tbView.dataSource = self
         seachBarOutlet.delegate = self
         parseJSON()
+        
+        taoPhimOutlet.frame = CGRect(x: 295, y: 595, width: 60, height: 60)
+        taoPhimOutlet.setTitle("+", for: .normal)
+        taoPhimOutlet.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        taoPhimOutlet.clipsToBounds = true
+        taoPhimOutlet.layer.cornerRadius = 30
+        taoPhimOutlet.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        taoPhimOutlet.layer.borderWidth = 3.0
+        taoPhimOutlet.layer.shadowRadius = 5
+        taoPhimOutlet.layer.shadowColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        taoPhimOutlet.layer.masksToBounds = false
+        taoPhimOutlet.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        taoPhimOutlet.layer.shadowOpacity = 1.0
+        
+        userInfoOutlet.frame = CGRect(x: 25, y: 595, width: 60, height: 60)
+        userInfoOutlet.setTitle("U", for: .normal)
+        userInfoOutlet.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        userInfoOutlet.clipsToBounds = true
+        userInfoOutlet.layer.cornerRadius = 30
+        userInfoOutlet.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        userInfoOutlet.layer.borderWidth = 3.0
+        userInfoOutlet.layer.shadowRadius = 5
+        userInfoOutlet.layer.shadowColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        userInfoOutlet.layer.masksToBounds = false
+        userInfoOutlet.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        userInfoOutlet.layer.shadowOpacity = 1.0
+        
         //self.tableView.register(customCeViewll.self, forCellReuseIdentifier: "cell")
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -38,12 +67,16 @@ class DSPhimTBVC:  UIViewController, UISearchBarDelegate, UITableViewDelegate {
         print("reload Data")
     }
 
-    // MARK: - Table view data source
-    @IBAction func backBtn(_ sender: Any) {
-        performSegue(withIdentifier: "goTaoPhim", sender: self)
+   
+    
+    @IBAction func taoPhimBtn(_ sender: UIButton) {
+        if DangNhapVC.userDefault.string(forKey: "token") != nil {
+         performSegue(withIdentifier: "goTaoPhim", sender: self)
+        } else {
+            performSegue(withIdentifier: "goDangNhap", sender: self)
+        }
     }
     
-
     @IBAction func dangXuatBtn(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: "Xác nhận", message: "Bạn có muốn đăng xuất?", preferredStyle: .alert)
         // actions
@@ -169,8 +202,25 @@ class DSPhimTBVC:  UIViewController, UISearchBarDelegate, UITableViewDelegate {
         // Pass the selected object to the new view controller.
     }
     */
+    var index = 0
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        index = indexPath.row
         performSegue(withIdentifier: "goChiTietPhim", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goChiTietPhim" {
+            //let indexPath = index
+                let controller = segue.destination as! ChiTietPhimVC
+                let phim = listPhim[index]
+                controller.tenPhim = phim.title
+                controller.theLoai = phim.genre
+                controller.ngayPhatHanh = dateConvert(date: phim.release)
+                controller.ngayTao = dateConvert(date: phim.createdAt)
+                controller.moTa = phim.description
+                
+            
+        }
     }
     
     func getImage(posterUrl:String)->UIImage {
@@ -223,7 +273,7 @@ extension DSPhimTBVC: UITableViewDataSource {
         cell.theLoaiTF.text = phim.genre
         cell.userTF.text = phim.description
         cell.dateTF.text = dateConvert(date: phim.release)
-        cell.imgIV.image = getImage(posterUrl: phim.cover)
+        //cell.imgIV.image = getImage(posterUrl: phim.cover)
         
         return cell
     }
