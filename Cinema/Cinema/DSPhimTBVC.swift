@@ -223,13 +223,39 @@ class DSPhimTBVC:  UIViewController, UISearchBarDelegate, UITableViewDelegate {
                 
             
         }
+        if segue.identifier == "goUserInfo" {
+            
+            let controller = segue.destination as! UserVC
+            for phim in listPhim {
+                if phim.creatorId == DangNhapVC.userDefault.string(forKey: "userID") {
+                    controller.listPhimUser.append(phim)
+                }
+            }
+        }
+        
     }
     
-    func getImage(posterUrl:String)->UIImage {
-        let url = baseURL + posterUrl
-        var img = UIImage(named: "195151")!
-        Alamofire.request(url).response { (response) in
-            img = UIImage(data: response.data!, scale:1) ?? UIImage(named: "195151")!
+  
+        func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+            URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+        }
+        
+        func downloadImage(posterUrl:String, imgView: UIImageView) {
+            let imgUrl = baseURL + posterUrl
+            if let url = URL(string: imgUrl) {
+            print("Download Started")
+            getData(from: url) { data, response, error in
+                guard let data = data, error == nil else { return }
+                print(response?.suggestedFilename ?? url.lastPathComponent)
+                print("Download Finished")
+                DispatchQueue.main.async() {
+                    imgView.image = UIImage(data: data)
+                }
+                }
+                
+    } else {
+    imgView.image = UIImage(named: "195151")
+            }
         }
         
 //        Alamofire.request(url).responseData { response in
@@ -240,8 +266,7 @@ class DSPhimTBVC:  UIViewController, UISearchBarDelegate, UITableViewDelegate {
 //                print("error")
 //            }
 //        }
-        return img
-    }
+   
     
     @IBAction func userInfoBtn(_ sender: UIButton) {
         
@@ -286,8 +311,8 @@ extension DSPhimTBVC: UITableViewDataSource {
         cell.theLoaiTF.text = phim.genre
         cell.userTF.text = phim.description
         cell.dateTF.text = dateConvert(date: phim.release)
-        cell.imgIV.image = getImage(posterUrl: phim.cover)
         
+        downloadImage(posterUrl: phim.cover, imgView: cell.imgIV)
         return cell
     }
 }

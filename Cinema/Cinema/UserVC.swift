@@ -7,17 +7,29 @@
 //
 
 import UIKit
+import Alamofire
+import Toast
 
-class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    
 
     @IBOutlet weak var doiMatKhauOutlet: UIButton!
     @IBOutlet weak var dangXuatOutlet: UIButton!
     @IBOutlet weak var avatarOutlet: UIButton!
     @IBOutlet weak var userNameOutlet: UIButton!
+    @IBOutlet weak var dsPhimView: UICollectionView!
+    @IBOutlet weak var emailLbl: UILabel!
     
     var avatar = UIImage()
+    var token = DangNhapVC.userDefault.string(forKey: "token")
     let imgPicker = UIImagePickerController()
-    
+    var listPhimUser = [Phim]()
+//    let headers: HTTPHeaders = [
+//        "x-access-token": token
+//    ]
+
+
     
     
     override func viewDidLoad() {
@@ -41,14 +53,18 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         dangXuatOutlet.layer.shadowOpacity = 1.0
         
         imgPicker.delegate = self
+        dsPhimView.delegate = self
+        dsPhimView.dataSource = self
 
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
         userNameOutlet.setTitle(DangNhapVC.userDefault.string(forKey: "userName"), for: .normal)
+            emailLbl.text = DangNhapVC.userDefault.string(forKey: "userEmail")
     }
     
     @IBAction func doiMatKhauBtn(_ sender: UIButton) {
+        
         var oldPassTF = UITextField()
         var newPassTF = UITextField()
         var confNewPassTF = UITextField()
@@ -94,8 +110,11 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         let noBtn = UIAlertAction(title: "Không", style: .destructive) { (btn) in
             print("Không")
         }
-        alert.addAction(yesBtn)
         alert.addAction(noBtn)
+        alert.addAction(yesBtn)
+
+        
+        
         
         
         present(alert, animated: true, completion: nil)
@@ -142,6 +161,15 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     }
     
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return listPhimUser.count
+    }
     
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "phimCell", for: indexPath) as? DSPhimUserCell
+        cell?.titleTF.text = listPhimUser[indexPath.row].title
+        cell?.posterImg.image = UIImage(named: "195151")
+        return cell!
+    }
     
 }

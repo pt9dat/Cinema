@@ -10,4 +10,5 @@ target 'Cinema' do
   pod 'Alamofire', '~> 4.7'
   pod 'HSDatePickerViewController', '~> 1.0'
   pod 'Toast'
+  #pod "CollectionViewSlantedLayout"
 end

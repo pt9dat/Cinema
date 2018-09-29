@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import Toast
 
 class DangKyVC: UIViewController {
 
@@ -65,17 +66,18 @@ class DangKyVC: UIViewController {
             switch response.result {
             case .success:
                 print(response)
-                guard let getUser = try? JSONDecoder().decode(RegisterUser.self, from: response.data!) else {
+                guard let getUser = try? JSONDecoder().decode(LoginToken.self, from: response.data!) else {
                     print("error decode")
                     return
                     
                 }
                 
-                //DangNhapVC.userDefault.set(getUser.token, forKey: "token")
-                DangNhapVC.userDefault.set(getUser.user.id, forKey: "userID")
-                DangNhapVC.userDefault.set(getUser.user.name, forKey: "userName")
-                DangNhapVC.userDefault.set(getUser.user.email, forKey: "userEmail")
+                DangNhapVC.userDefault.set(getUser.token, forKey: "token")
+                DangNhapVC.userDefault.set(getUser.loginUser.id, forKey: "userID")
+                DangNhapVC.userDefault.set(getUser.loginUser.name, forKey: "userName")
+                DangNhapVC.userDefault.set(getUser.loginUser.email, forKey: "userEmail")
                 self.performSegue(withIdentifier: "goDSPhim", sender: self)
+                self.view.makeToast("Đăng ký thành công")
                 break
             case .failure(let error):
                 

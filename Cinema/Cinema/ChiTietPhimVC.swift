@@ -25,16 +25,17 @@ class ChiTietPhimVC: UIViewController {
     @IBOutlet weak var posterImgV: UIImageView!
     @IBOutlet weak var moTaTV: UITextView!
     @IBOutlet weak var editOutlet: UIButton!
+    @IBOutlet weak var xoaPhimOutlet: UIButton!
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        editOutlet.frame = CGRect(x: 300, y: 25, width: 60, height: 60)
-        editOutlet.setTitle("Edit", for: .normal)
+        editOutlet.frame = CGRect(x: 310, y: 600, width: 45, height: 45)
+        editOutlet.setTitle("Sửa", for: .normal)
         editOutlet.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         editOutlet.clipsToBounds = true
-        editOutlet.layer.cornerRadius = 30
+        //editOutlet.layer.cornerRadius = 30
         editOutlet.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         editOutlet.layer.borderWidth = 3.0
         editOutlet.layer.shadowRadius = 5
@@ -42,6 +43,19 @@ class ChiTietPhimVC: UIViewController {
         editOutlet.layer.masksToBounds = false
         editOutlet.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
         editOutlet.layer.shadowOpacity = 1.0
+        
+        xoaPhimOutlet.frame = CGRect(x: 250, y: 600, width: 45, height: 45)
+        xoaPhimOutlet.setTitle("Xóa", for: .normal)
+        xoaPhimOutlet.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        xoaPhimOutlet.clipsToBounds = true
+        //editOutlet.layer.cornerRadius = 30
+        xoaPhimOutlet.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        xoaPhimOutlet.layer.borderWidth = 3.0
+        xoaPhimOutlet.layer.shadowRadius = 5
+        xoaPhimOutlet.layer.shadowColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        xoaPhimOutlet.layer.masksToBounds = false
+        xoaPhimOutlet.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        xoaPhimOutlet.layer.shadowOpacity = 1.0
 
         // Do any additional setup after loading the view.
     }
@@ -60,8 +74,10 @@ class ChiTietPhimVC: UIViewController {
         
         if DangNhapVC.userDefault.string(forKey: "userID") == userID {
             editOutlet.isHidden = false
+            xoaPhimOutlet.isHidden = false
         } else {
             editOutlet.isHidden = true
+            xoaPhimOutlet.isHidden = true
         }
     }
     
@@ -74,6 +90,23 @@ class ChiTietPhimVC: UIViewController {
         performSegue(withIdentifier: "goEdit", sender: self)
     }
     
+    @IBAction func xoaBtn(_ sender: UIButton) {
+        let alert = UIAlertController(title: "Xác nhận", message: "Bạn có chắc chắn muốn xóa phim này không?", preferredStyle: .alert)
+        // actions
+        let yesBtn = UIAlertAction(title: "Có", style: .default) { (btn) in
+            
+            
+            
+        }
+        let noBtn = UIAlertAction(title: "Không", style: .destructive) { (btn) in
+            print("Không")
+        }
+        alert.addAction(yesBtn)
+        alert.addAction(noBtn)
+        
+        
+        present(alert, animated: true, completion: nil)
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goEdit" {
             let controller = segue.destination as! TaoPhimVC

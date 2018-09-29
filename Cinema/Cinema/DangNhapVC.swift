@@ -94,5 +94,32 @@ class DangNhapVC: UIViewController {
     @IBAction func dangKyBtn(_ sender: UIButton) {
         performSegue(withIdentifier: "goDangKy", sender: self)
     }
+    
+    @IBAction func datLaiMatKhauBtn(_ sender: Any) {
+        var email = UITextField()
+        let alert = UIAlertController(title: "Đặt lại mật khẩu", message: nil, preferredStyle: .alert)
+        // actions
+        let yesBtn = UIAlertAction(title: "Gửi", style: .default) { (btn) in
+            self.view.makeToast("Đã gửi")
+            
+            
+            
+        }
+        let noBtn = UIAlertAction(title: "Hủy", style: .destructive) { (btn) in
+            print("Không")
+        }
+        
+        alert.addTextField { (tf) in
+            tf.placeholder = "Địa chỉ email của bạn"
+            email = tf
+        }
+        
+        alert.addAction(yesBtn)
+        alert.addAction(noBtn)
+        
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
 }
 
