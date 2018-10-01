@@ -49,7 +49,10 @@ class DangNhapVC: UIViewController {
         UIApplication.shared.statusBarStyle = .lightContent
     }
 
-    @IBAction func dangNhapBtn(_ sender: UIButton) {
+  @IBAction func hideKeyboardBtn(_ sender: UIButton) {
+    view.endEditing(true)
+  }
+  @IBAction func dangNhapBtn(_ sender: UIButton) {
         if mailTF.text == "" && passTF.text == "" {
             view.makeToast("Bạn phải nhập email và mật khẩu")
         } else if passTF.text == ""{
@@ -70,7 +73,7 @@ class DangNhapVC: UIViewController {
                     return
                     
                 }
-                
+                if getUser.status == 200 {
                 
                 DangNhapVC.userDefault.set(getUser.token, forKey: "token")
                 DangNhapVC.userDefault.set(getUser.loginUser.id, forKey: "userID")
@@ -83,6 +86,9 @@ class DangNhapVC: UIViewController {
                 
                 
                 break
+                } else {
+                     self.view.makeToast("Đăng nhập không thành công.")
+                }
             case .failure(let error):
                 
                 print(error)

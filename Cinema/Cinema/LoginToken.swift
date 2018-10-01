@@ -9,10 +9,11 @@
 import Foundation
 struct LoginToken {
     var token : String
+    var status : Int
     var loginUser : LoginUser
     
     enum LoginCodingKeys: String, CodingKey {
-        case token
+        case token, status
         case user
         
 
@@ -24,6 +25,7 @@ extension LoginToken: Decodable {
      init(from decoder : Decoder) throws {
         let values = try decoder.container(keyedBy: LoginCodingKeys.self)
         self.token = try values.decode(String.self, forKey: .token)
+        self.status = try values.decode(Int.self, forKey: .status)
         self.loginUser = try values.decode(LoginUser.self, forKey: .user)
         }
 }

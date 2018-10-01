@@ -33,6 +33,8 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
     var moTa : String?
     var poster = UIImage()
     var userID : String?
+    var segueName : String?
+    var posterURL : String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,18 +73,23 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
-        
+        if let segueID = segueName {
                 theLoaiTF.text = theLoai
                 tenPhimTF.text = tenPhim
                 ngayPhatHanhTF.text = ngayPhatHanh
                 moTaTV.text = moTa
+          DSPhimTBVC.downloadImage(posterUrl: posterURL!, imgView: posterImg)
                 taoPhimOutlet.setTitle("Sửa phim", for: .normal)
-                
-                
-     
-        
-        
-        
+        } else {
+            taoPhimOutlet.setTitle("Tạo phim", for: .normal)
+            theLoaiTF.text = listTheLoai[1]
+            let date = Date()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd/MM/yyyy"
+            let result = formatter.string(from: date)
+            ngayPhatHanhTF.text = result
+        }
+    
     }
     
     
@@ -108,7 +115,9 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
         let date = dfmatter.date(from: ngayPhatHanhTF.text!)
         let dateStamp:TimeInterval = date!.timeIntervalSince1970
         let dateSt:Int = Int(dateStamp)
-        
+      let randomNum:UInt32 = arc4random_uniform(999999)
+      let number:Int = Int(randomNum)
+        var fileName = "dat-\(number).jpg"
         let creatorID = DangNhapVC.userDefault.string(forKey: "userID")
 
         print(creatorID!)
@@ -121,9 +130,9 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
             for (key, values) in info {
                 multipartFormData.append("\(values)".data(using: String.Encoding.utf8)!, withName: key as String)
             }
-            if let data = UIImage.jpegData(self.img)(compressionQuality: 1) {
+          if let data = UIImageJPEGRepresentation(self.img, 1.0) {
 
-            multipartFormData.append(data, withName: "file", fileName: "dattest.jpg", mimeType: "image/jpeq")
+            multipartFormData.append(data, withName: "file", fileName: fileName, mimeType: "image/jpeq")
             }
         
         }, to: url, method: .post, headers: nil)  { encodingResult in
@@ -194,8 +203,8 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
         present(imgPicker, animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             posterImg.contentMode = .scaleAspectFit
             posterImg.image = pickedImage
             img = pickedImage

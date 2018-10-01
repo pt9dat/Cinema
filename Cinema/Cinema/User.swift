@@ -19,7 +19,7 @@ struct User {
 
 
 enum UserCodingKey : String, CodingKey {
-    case avatarURL, username, email, password
+    case avatarURL, name, email, password
     case _id
 }
 }
@@ -28,7 +28,7 @@ extension User: Decodable {
         let values = try decoder.container(keyedBy: UserCodingKey.self)
         self.id = try values.decodeIfPresent(String.self, forKey: ._id) ?? ""
         self.avatar = try values.decodeIfPresent(String.self, forKey: .avatarURL) ?? ""
-        self.username = try values.decodeIfPresent(String.self, forKey: .username) ?? ""
+        self.username = try values.decodeIfPresent(String.self, forKey: .name) ?? ""
         self.email = try values.decodeIfPresent(String.self, forKey: .email) ?? ""
         self.password = try values.decodeIfPresent(String.self, forKey: .password) ?? ""
     }

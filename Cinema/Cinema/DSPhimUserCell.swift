@@ -12,5 +12,8 @@ class DSPhimUserCell: UICollectionViewCell {
     
     @IBOutlet weak var posterImg: UIImageView!
     @IBOutlet weak var titleTF: UILabel!
+    @IBOutlet weak var theLoaiTF: UILabel!
+    @IBOutlet weak var ngayPhatHanhTF: UILabel!
+    
     
 }

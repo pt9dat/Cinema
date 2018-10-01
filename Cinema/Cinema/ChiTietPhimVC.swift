@@ -15,7 +15,7 @@ class ChiTietPhimVC: UIViewController {
     var ngayPhatHanh : String?
     var ngayTao : String?
     var moTa : String?
-    var poster = UIImage()
+    var posterUrl : String?
     var userID : String?
 
     @IBOutlet weak var tenPhimTF: UILabel!
@@ -31,11 +31,12 @@ class ChiTietPhimVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         editOutlet.frame = CGRect(x: 310, y: 600, width: 45, height: 45)
         editOutlet.setTitle("Sửa", for: .normal)
         editOutlet.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         editOutlet.clipsToBounds = true
-        //editOutlet.layer.cornerRadius = 30
+        editOutlet.layer.cornerRadius = 5
         editOutlet.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         editOutlet.layer.borderWidth = 3.0
         editOutlet.layer.shadowRadius = 5
@@ -48,7 +49,7 @@ class ChiTietPhimVC: UIViewController {
         xoaPhimOutlet.setTitle("Xóa", for: .normal)
         xoaPhimOutlet.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         xoaPhimOutlet.clipsToBounds = true
-        //editOutlet.layer.cornerRadius = 30
+        xoaPhimOutlet.layer.cornerRadius = 5
         xoaPhimOutlet.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         xoaPhimOutlet.layer.borderWidth = 3.0
         xoaPhimOutlet.layer.shadowRadius = 5
@@ -64,6 +65,8 @@ class ChiTietPhimVC: UIViewController {
         theLoaiTF.text = theLoai
         ngayPhatHanhTF.text = ngayPhatHanh
         ngayTaoTF.text = ngayTao
+        DSPhimTBVC.downloadImage(posterUrl: posterUrl!, imgView: posterImgV)
+        
         if moTa == nil || moTa == "" {
             moTaTV.isHidden = true
         } else {
@@ -101,8 +104,9 @@ class ChiTietPhimVC: UIViewController {
         let noBtn = UIAlertAction(title: "Không", style: .destructive) { (btn) in
             print("Không")
         }
-        alert.addAction(yesBtn)
         alert.addAction(noBtn)
+        alert.addAction(yesBtn)
+        
         
         
         present(alert, animated: true, completion: nil)
@@ -115,6 +119,8 @@ class ChiTietPhimVC: UIViewController {
             controller.theLoai = theLoaiTF.text
             controller.ngayPhatHanh = ngayPhatHanhTF.text
             controller.moTa = moTaTV.text
+            controller.posterURL = posterUrl
+            controller.segueName = segue.identifier
             //controller.userID = phim.creatorId
             
             

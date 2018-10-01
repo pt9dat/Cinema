@@ -13,8 +13,9 @@ class DSPhimCell: UITableViewCell {
     @IBOutlet weak var imgIV: UIImageView!
     @IBOutlet weak var tenPhimTF: UILabel!
     @IBOutlet weak var theLoaiTF: UILabel!
-    @IBOutlet weak var userTF: UILabel!
     @IBOutlet weak var dateTF: UILabel!
+    @IBOutlet weak var moTaTF: UILabel!
+    @IBOutlet weak var userNameTF: UILabel!
     
     
     

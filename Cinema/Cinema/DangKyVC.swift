@@ -47,7 +47,11 @@ class DangKyVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         UIApplication.shared.statusBarStyle = .lightContent
     }
-    
+
+  @IBAction func hideKeyboard(_ sender: UIButton) {
+      view.endEditing(true)
+  }
+  
     @IBAction func dangKyBtn(_ sender: UIButton) {
         if mailTF.text == "" && passTF.text == "" && passTF.text == "" {
             view.makeToast("Bạn phải nhập tên, email và mật khẩu")
@@ -71,7 +75,7 @@ class DangKyVC: UIViewController {
                     return
                     
                 }
-                
+                if getUser.status == 200 {
                 DangNhapVC.userDefault.set(getUser.token, forKey: "token")
                 DangNhapVC.userDefault.set(getUser.loginUser.id, forKey: "userID")
                 DangNhapVC.userDefault.set(getUser.loginUser.name, forKey: "userName")
@@ -79,6 +83,9 @@ class DangKyVC: UIViewController {
                 self.performSegue(withIdentifier: "goDSPhim", sender: self)
                 self.view.makeToast("Đăng ký thành công")
                 break
+                } else {
+                    self.view.makeToast("Đăng ký không thành công")
+                }
             case .failure(let error):
                 
                 print(error)

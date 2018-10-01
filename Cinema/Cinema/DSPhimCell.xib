@@ -19,32 +19,39 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="AppIcon50x50" highlightedImage="iTunesArtwork" translatesAutoresizingMaskIntoConstraints="NO" id="ZWL-8y-C3K">
-                        <rect key="frame" x="8" y="11" width="99" height="94"/>
+                        <rect key="frame" x="8" y="11" width="99" height="84"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="tenPhim" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eoe-Zx-r4G">
-                        <rect key="frame" x="123" y="11" width="160" height="36"/>
+                        <rect key="frame" x="115" y="1" width="160" height="36"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="theLoai" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DVi-oM-Bnb">
-                        <rect key="frame" x="123" y="55" width="142" height="21"/>
+                        <rect key="frame" x="115" y="45" width="142" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1234" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h3o-Wo-L3V">
-                        <rect key="frame" x="123" y="84" width="206" height="21"/>
+                        <rect key="frame" x="115" y="74" width="206" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="180925" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V8c-h7-Ne7">
-                        <rect key="frame" x="273" y="55" width="115" height="21"/>
+                        <rect key="frame" x="265" y="45" width="115" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NrK-uH-LcY">
+                        <rect key="frame" x="8" y="98" width="99" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -56,11 +63,12 @@
             <connections>
                 <outlet property="dateTF" destination="V8c-h7-Ne7" id="xHO-Ev-3hp"/>
                 <outlet property="imgIV" destination="ZWL-8y-C3K" id="sEV-mA-Ftl"/>
+                <outlet property="moTaTF" destination="h3o-Wo-L3V" id="hp9-ys-AwB"/>
                 <outlet property="tenPhimTF" destination="eoe-Zx-r4G" id="W7O-vh-fqf"/>
                 <outlet property="theLoaiTF" destination="DVi-oM-Bnb" id="C43-FH-Q08"/>
-                <outlet property="userTF" destination="h3o-Wo-L3V" id="IVC-Cf-dCh"/>
+                <outlet property="userNameTF" destination="NrK-uH-LcY" id="jtJ-nR-v7q"/>
             </connections>
-            <point key="canvasLocation" x="497.60000000000002" y="-131.33433283358323"/>
+            <point key="canvasLocation" x="497.60000000000002" y="-132.23388305847078"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -26,6 +26,7 @@
 		AA7FB9142159E79F00E778E4 /* DSPhimCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7FB9132159E79F00E778E4 /* DSPhimCell.swift */; };
 		AA7FB9162159F60900E778E4 /* Phim.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7FB9152159F60900E778E4 /* Phim.swift */; };
 		AA855F10215B267100F03C35 /* montserrat in Resources */ = {isa = PBXBuildFile; fileRef = AA855F0F215B267100F03C35 /* montserrat */; };
+		AA96D8172161C10000B46204 /* statusAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA96D8162161C10000B46204 /* statusAPI.swift */; };
 		AAB0F1B6215F295B00FA68DC /* DSPhimUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB0F1B5215F295B00FA68DC /* DSPhimUserCell.swift */; };
 		AAEE6326215C6D4300D58C40 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEE6325215C6D4300D58C40 /* Constant.swift */; };
 		AAF70BCE215B799C00409414 /* TaoPhimVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF70BCD215B799C00409414 /* TaoPhimVC.swift */; };
@@ -54,6 +55,7 @@
 		AA7FB9132159E79F00E778E4 /* DSPhimCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSPhimCell.swift; sourceTree = "<group>"; };
 		AA7FB9152159F60900E778E4 /* Phim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phim.swift; sourceTree = "<group>"; };
 		AA855F0F215B267100F03C35 /* montserrat */ = {isa = PBXFileReference; lastKnownFileType = folder; path = montserrat; sourceTree = "<group>"; };
+		AA96D8162161C10000B46204 /* statusAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = statusAPI.swift; sourceTree = "<group>"; };
 		AAB0F1B5215F295B00FA68DC /* DSPhimUserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSPhimUserCell.swift; sourceTree = "<group>"; };
 		AAEE6325215C6D4300D58C40 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		AAF70BCD215B799C00409414 /* TaoPhimVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaoPhimVC.swift; sourceTree = "<group>"; };
@@ -110,15 +112,15 @@
 		AA7FB8F42159CD5300E778E4 /* Cinema */ = {
 			isa = PBXGroup;
 			children = (
-				AA7FB8F52159CD5300E778E4 /* AppDelegate.swift */,
-				AA7FB8F72159CD5300E778E4 /* DangNhapVC.swift */,
-				AA7FB8F92159CD5300E778E4 /* Main.storyboard */,
-				AA47259C215E221C00D168DF /* RegisterUser.swift */,
+				AA96D81B2161D4A400B46204 /* Modal */,
+				AA96D81A2161D49E00B46204 /* Views */,
 				AA7FB9072159DF7800E778E4 /* DSPhimCell.xib */,
+				AA7FB8F92159CD5300E778E4 /* Main.storyboard */,
+				AA96D8182161D48B00B46204 /* Controllers */,
+				AA7FB8F52159CD5300E778E4 /* AppDelegate.swift */,
 				AA7FB8FC2159CD5400E778E4 /* Assets.xcassets */,
 				AA7FB8FE2159CD5400E778E4 /* LaunchScreen.storyboard */,
 				AA7FB9012159CD5400E778E4 /* Info.plist */,
-				AA7FB90D2159E4DA00E778E4 /* DSPhimTBVC.swift */,
 				AA7FB90F2159E50500E778E4 /* DangKyVC.swift */,
 				AA7FB9132159E79F00E778E4 /* DSPhimCell.swift */,
 				AA7FB9152159F60900E778E4 /* Phim.swift */,
@@ -132,8 +134,33 @@
 				AA4ED90F215DB9E900A6C368 /* ChiTietPhimVC.swift */,
 				AA47259A215E09DA00D168DF /* UserVC.swift */,
 				AAB0F1B5215F295B00FA68DC /* DSPhimUserCell.swift */,
+				AA96D8162161C10000B46204 /* statusAPI.swift */,
 			);
 			path = Cinema;
+			sourceTree = "<group>";
+		};
+		AA96D8182161D48B00B46204 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AA7FB90D2159E4DA00E778E4 /* DSPhimTBVC.swift */,
+				AA7FB8F72159CD5300E778E4 /* DangNhapVC.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		AA96D81A2161D49E00B46204 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		AA96D81B2161D4A400B46204 /* Modal */ = {
+			isa = PBXGroup;
+			children = (
+				AA47259C215E221C00D168DF /* RegisterUser.swift */,
+			);
+			path = Modal;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -216,12 +243,14 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Cinema/Pods-Cinema-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/HSDatePickerViewController/HSDatePickerViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast/Toast.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HSDatePickerViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -258,6 +287,7 @@
 				AA7FB9102159E50500E778E4 /* DangKyVC.swift in Sources */,
 				AA3CBE0B215A2FBC0061E88E /* ListFilm.swift in Sources */,
 				AAB0F1B6215F295B00FA68DC /* DSPhimUserCell.swift in Sources */,
+				AA96D8172161C10000B46204 /* statusAPI.swift in Sources */,
 				AA7FB9162159F60900E778E4 /* Phim.swift in Sources */,
 				AA3F3436215B49440039EF4B /* LoginToken.swift in Sources */,
 				AA7FB8F82159CD5300E778E4 /* DangNhapVC.swift in Sources */,
@@ -419,10 +449,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2R6U9FW862;
 				INFOPLIST_FILE = Cinema/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ChinhDat.Cinema;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -438,10 +465,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2R6U9FW862;
 				INFOPLIST_FILE = Cinema/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ChinhDat.Cinema;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
