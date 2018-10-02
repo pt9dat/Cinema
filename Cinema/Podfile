@@ -11,7 +11,7 @@ target 'Cinema' do
   pod 'HSDatePickerViewController', '~> 1.0'
   pod 'Toast'
   #pod 'FontAwesomeSwift'
-  pod 'SDWebImage'
+  pod 'SDWebImage' 
   #pod "CollectionViewSlantedLayout"
 
 end

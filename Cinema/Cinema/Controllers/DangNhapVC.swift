@@ -52,13 +52,25 @@ class DangNhapVC: UIViewController {
   @IBAction func hideKeyboardBtn(_ sender: UIButton) {
     view.endEditing(true)
   }
+  
+  @IBAction func backBtn(_ sender: UIButton) {
+    performSegue(withIdentifier: "goDSPhim", sender: self)
+  }
+  
+  func isValidEmail(testStr:String) -> Bool {
+    let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+    
+    let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+    return emailTest.evaluate(with: testStr)
+  }
+  
   @IBAction func dangNhapBtn(_ sender: UIButton) {
-        if mailTF.text == "" && passTF.text == "" {
-            view.makeToast("Bạn phải nhập email và mật khẩu")
-        } else if passTF.text == ""{
-            view.makeToast("Bạn phải nhập mật khẩu")
-        } else if mailTF.text == "" {
+        if mailTF.text == nil || mailTF.text == "" {
             view.makeToast("Bạn phải nhập email")
+        } else if passTF.text == nil || passTF.text == "" {
+            view.makeToast("Bạn phải nhập mật khẩu")
+        } else if isValidEmail(testStr: mailTF.text!) == false {
+          view.makeToast("Email không đúng")
         } else {
 
         let info : [String: String] = ["email" : mailTF.text!, "password" : passTF.text!]
@@ -67,20 +79,24 @@ class DangNhapVC: UIViewController {
         Alamofire.request(url, method: .post, parameters: info, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
             switch response.result {
             case .success:
+              let status = response.response?.statusCode
                 print(response)
+              if status == 404 {
+                self.view.makeToast("Sai email hoặc mật khẩu")
+              } else if status == 200 {
                 guard let getUser = try? JSONDecoder().decode(LoginToken.self, from: response.data!) else {
                     print("error decode")
                     return
                     
                 }
                 if getUser.status == 200 {
-                
+                self.view.makeToast("Đăng nhập thành công.")
                 DangNhapVC.userDefault.set(getUser.token, forKey: "token")
                 DangNhapVC.userDefault.set(getUser.loginUser.id, forKey: "userID")
                 DangNhapVC.userDefault.set(getUser.loginUser.name, forKey: "userName")
                 DangNhapVC.userDefault.set(getUser.loginUser.email, forKey: "userEmail")
                 //print(self.userDefault.string(forKey: "userName")!)
-                self.view.makeToast("Đăng nhập thành công.")
+                
                 self.performSegue(withIdentifier: "goDSPhim", sender: self)
                 
                 
@@ -89,6 +105,7 @@ class DangNhapVC: UIViewController {
                 } else {
                      self.view.makeToast("Đăng nhập không thành công.")
                 }
+              }
             case .failure(let error):
                 
                 print(error)
@@ -102,11 +119,40 @@ class DangNhapVC: UIViewController {
     }
     
     @IBAction func datLaiMatKhauBtn(_ sender: Any) {
+      
         var email = UITextField()
         let alert = UIAlertController(title: "Đặt lại mật khẩu", message: nil, preferredStyle: .alert)
+      
         // actions
         let yesBtn = UIAlertAction(title: "Gửi", style: .default) { (btn) in
-            self.view.makeToast("Đã gửi")
+          if email.text == nil || email.text == "" {
+            self.view.makeToast("Bạn phải nhập email")
+          } else if self.isValidEmail(testStr: email.text!) == false {
+            self.view.makeToast("Email không đúng")
+          } else {
+          let info : [String: String] = ["email" : email.text!]
+          let jsonURLString = baseURL + "/api/auth/reset-password"
+          guard let url = URL(string: jsonURLString) else {return}
+          Alamofire.request(url, method: .post, parameters: info, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
+            switch response.result {
+            case .success:
+              let status = response.response?.statusCode
+              print(response)
+              print(status)
+              if status == 200 {
+                self.view.makeToast("Gửi yêu cầu thành công, vui lòng kiểm tra email")
+              } else {
+                self.view.makeToast("Không tìm thấy tài khoản, vui lòng kiểm tra lại địa chỉ email")
+              }
+             
+                  break
+              
+            case .failure(let error):
+              
+              print(error)
+            }
+            }
+          }
             
             
             
@@ -119,9 +165,9 @@ class DangNhapVC: UIViewController {
             tf.placeholder = "Địa chỉ email của bạn"
             email = tf
         }
-        
-        alert.addAction(yesBtn)
         alert.addAction(noBtn)
+        alert.addAction(yesBtn)
+      
         
         
         present(alert, animated: true, completion: nil)

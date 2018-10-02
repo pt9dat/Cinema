@@ -8,7 +8,7 @@
 
 import Foundation
 
-var count = 0
+//var count = 0
 
 struct Phim{
     var id : String = ""
@@ -30,8 +30,8 @@ enum PhimCodingKey : String, CodingKey {
 }
 extension Phim: Decodable {
     init(from decoder : Decoder) throws {
-        print("=====", count)
-        count += 1
+//        print("=====", count)
+//        count += 1
         let values = try decoder.container(keyedBy: PhimCodingKey.self)
         self.id = try values.decodeIfPresent(String.self, forKey: ._id) ?? ""
         self.title = try values.decodeIfPresent(String.self, forKey: .name) ?? ""

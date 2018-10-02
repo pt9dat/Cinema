@@ -18,6 +18,7 @@ class DSPhimTBVC:  UIViewController, UISearchBarDelegate, UITableViewDelegate {
   var listPhim = [Phim]()
   var filterData = [Phim]()
   var isSearching = false
+  let refreshControl = UIRefreshControl()
   
   @IBOutlet weak var userInfoOutlet: UIButton!
   @IBOutlet weak var taoPhimOutlet: UIButton!
@@ -29,7 +30,7 @@ class DSPhimTBVC:  UIViewController, UISearchBarDelegate, UITableViewDelegate {
     tbView.delegate = self
     tbView.dataSource = self
     seachBarOutlet.delegate = self
-    parseJSON()
+    //parseJSON()
     
     taoPhimOutlet.frame = CGRect(x: 295, y: 595, width: 60, height: 60)
     taoPhimOutlet.setTitle("+", for: .normal)
@@ -57,6 +58,8 @@ class DSPhimTBVC:  UIViewController, UISearchBarDelegate, UITableViewDelegate {
     userInfoOutlet.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
     userInfoOutlet.layer.shadowOpacity = 1.0
     
+    refreshControl.tintColor = .white
+    
     //self.tableView.register(customCeViewll.self, forCellReuseIdentifier: "cell")
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = false
@@ -75,8 +78,18 @@ class DSPhimTBVC:  UIViewController, UISearchBarDelegate, UITableViewDelegate {
     } else {
       userInfoOutlet.isHidden = true
     }
+    
+    tbView.refreshControl = refreshControl
+    refreshControl.addTarget(self, action: #selector(updateData), for: .valueChanged)
+
+    
   }
   
+  @objc func updateData() {
+   // self.number += 1
+    parseJSON()
+    refreshControl.endRefreshing()
+  }
   
   
   @IBAction func taoPhimBtn(_ sender: UIButton) {
@@ -226,6 +239,7 @@ class DSPhimTBVC:  UIViewController, UISearchBarDelegate, UITableViewDelegate {
       controller.moTa = phim.description
       controller.userID = phim.creatorId
       controller.posterUrl = phim.cover
+      controller.phimID = phim.id
       
       
       
