@@ -12,13 +12,7 @@ import Toast
 import SDWebImage
 
 class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
-
-  
-  
-  
-  
-  
-  
+  //
   @IBOutlet weak var doiMatKhauOutlet: UIButton!
   @IBOutlet weak var dangXuatOutlet: UIButton!
   @IBOutlet weak var avatarOutlet: UIButton!
@@ -62,6 +56,8 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     dangXuatOutlet.layer.masksToBounds = false
     dangXuatOutlet.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
     dangXuatOutlet.layer.shadowOpacity = 1.0
+    
+    refreshControl.tintColor = .white
   }
   
   override func viewDidLoad() {
@@ -71,7 +67,7 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     imgPicker.delegate = self
     dsPhimView.delegate = self
     dsPhimView.dataSource = self
-    refreshControl.tintColor = .white
+    
     
 
     
@@ -84,9 +80,10 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     // Do any additional setup after loading the view.
   }
   override func viewWillAppear(_ animated: Bool) {
-    userNameLbl.text = DangNhapVC.userDefault.string(forKey: "userName")
-    emailLbl.text = DangNhapVC.userDefault.string(forKey: "userEmail")
-    token = DangNhapVC.userDefault.string(forKey: "token")
+    userNameLbl.text = userDefault.string(forKey: "userName")
+    emailLbl.text = userDefault.string(forKey: "userEmail")
+    token = userDefault.string(forKey: "token")
+    
     
     scrollViewOutlet.refreshControl = refreshControl
     refreshControl.addTarget(self, action: #selector(updateData), for: .valueChanged)
@@ -115,7 +112,7 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         }
         
         self.listPhimUser = list.movies.filter({ (phim) -> Bool in
-          return phim.creatorId == DangNhapVC.userDefault.string(forKey: "userID")
+          return phim.creatorId == userDefault.string(forKey: "userID")
         })
         
         self.dsPhimView.reloadData()
@@ -128,7 +125,7 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
   func reloadUserInfo() {
     
   
-    let info : [String : String] = ["token" : DangNhapVC.userDefault.string(forKey: "token")!]
+    let info : [String : String] = ["token" : userDefault.string(forKey: "token")!]
     let jsonURLString = baseURL + "/api/auth/user"
     guard let url = URL(string: jsonURLString) else {return}
     Alamofire.request(url, method: .post, parameters: info, encoding: JSONEncoding.default).responseJSON { (response) in
@@ -142,8 +139,8 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
           }
 
 
-          DangNhapVC.userDefault.set(getUser.username, forKey: "userName")
-        self.userNameLbl.text = DangNhapVC.userDefault.string(forKey: "userName")
+          userDefault.set(getUser.username, forKey: "userName")
+        self.userNameLbl.text = userDefault.string(forKey: "userName")
 
 
           break
@@ -254,10 +251,10 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     let alert = UIAlertController(title: "Xác nhận", message: "Bạn có muốn đăng xuất?", preferredStyle: .alert)
     // actions
     let yesBtn = UIAlertAction(title: "Có", style: .default) { (btn) in
-      DangNhapVC.userDefault.removeObject(forKey: "token")
-      DangNhapVC.userDefault.removeObject(forKey: "userID")
-      DangNhapVC.userDefault.removeObject(forKey: "userName")
-      DangNhapVC.userDefault.removeObject(forKey: "userEmail")
+      userDefault.removeObject(forKey: "token")
+      userDefault.removeObject(forKey: "userID")
+      userDefault.removeObject(forKey: "userName")
+      userDefault.removeObject(forKey: "userEmail")
       //print(DangNhapVC.userDefault.string(forKey: "token"))
       
       self.performSegue(withIdentifier: "goDangNhap", sender: self); //self.navigationController?.popViewController(animated: true)
@@ -399,8 +396,8 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
           }
           if getStatus.status == 200 {
             self.view.makeToast("Đổi tên thành công.")
-            DangNhapVC.userDefault.removeObject(forKey: "userName")
-            DangNhapVC.userDefault.set(newNameTF.text, forKey: "userName")
+            userDefault.removeObject(forKey: "userName")
+            userDefault.set(newNameTF.text, forKey: "userName")
             self.userNameLbl.text = newNameTF.text
           } else {
             self.view.makeToast("Lỗi.")
@@ -442,8 +439,8 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
       let phim = listPhimUser[index]
       controller.tenPhim = phim.title
       controller.theLoai = phim.genre
-      controller.ngayPhatHanh = DSPhimTBVC.dateConvert(date: phim.release)
-      controller.ngayTao = DSPhimTBVC.dateConvert(date: phim.createdAt)
+      controller.ngayPhatHanh = dateConvert(date: phim.release)
+      controller.ngayTao = dateConvert(date: phim.createdAt)
       controller.moTa = phim.description
       controller.userID = phim.creatorId
       controller.posterUrl = phim.cover
@@ -467,8 +464,8 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     let phim = listPhimUser[indexPath.row]
     cell?.titleTF.text = phim.title
     cell?.theLoaiTF.text = phim.genre
-    cell?.ngayPhatHanhTF.text = DSPhimTBVC.dateConvert(date: phim.release)
-    DSPhimTBVC.downloadImage(posterUrl: phim.cover, imgView: (cell?.posterImg)!)
+    cell?.ngayPhatHanhTF.text = dateConvert(date: phim.release)
+    downloadImage(posterUrl: phim.cover, imgView: (cell?.posterImg)!)
     return cell!
   }
   

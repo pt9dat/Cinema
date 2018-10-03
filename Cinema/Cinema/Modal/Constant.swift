@@ -9,4 +9,5 @@
 import Foundation
 
 let baseURL = "https://cinema-hatin.herokuapp.com"
+let userDefault = UserDefaults.standard
 

@@ -19,6 +19,7 @@ class ChiTietPhimVC: UIViewController {
   var posterUrl : String?
   var userID : String?
   var phimID : String?
+  var nguoiTao : String?
   var token : String?
   lazy var headers: HTTPHeaders = [
     "x-access-token": token!
@@ -34,6 +35,7 @@ class ChiTietPhimVC: UIViewController {
   @IBOutlet weak var moTaTV: UITextView!
   @IBOutlet weak var editOutlet: UIButton!
   @IBOutlet weak var xoaPhimOutlet: UIButton!
+  @IBOutlet weak var nguoiTaoTF: UILabel!
   
   
   
@@ -71,7 +73,8 @@ class ChiTietPhimVC: UIViewController {
     theLoaiTF.text = theLoai
     ngayPhatHanhTF.text = ngayPhatHanh
     ngayTaoTF.text = ngayTao
-    DSPhimTBVC.downloadImage(posterUrl: posterUrl!, imgView: posterImgV)
+    nguoiTaoTF.text = nguoiTao
+    downloadImage(posterUrl: posterUrl!, imgView: posterImgV)
     
     if moTa == nil || moTa == "" {
       moTaTV.isHidden = true
@@ -81,14 +84,14 @@ class ChiTietPhimVC: UIViewController {
     }
     
     
-    if DangNhapVC.userDefault.string(forKey: "userID") == userID {
+    if userDefault.string(forKey: "userID") == userID {
       editOutlet.isHidden = false
       xoaPhimOutlet.isHidden = false
     } else {
       editOutlet.isHidden = true
       xoaPhimOutlet.isHidden = true
     }
-    token = DangNhapVC.userDefault.string(forKey: "token")
+    token = userDefault.string(forKey: "token")
   }
   
   @IBAction func backBtn(_ sender: UIButton) {

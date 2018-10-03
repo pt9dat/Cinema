@@ -10,8 +10,8 @@ import UIKit
 import HSDatePickerViewController
 import Alamofire
 
-class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-  
+class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+  // MARK: - Class's Property
   @IBOutlet weak var chonAnhOutlet: UIButton!
   @IBOutlet weak var taoPhimOutlet: UIButton!
   @IBOutlet weak var tenPhimTF: UITextField!
@@ -64,11 +64,6 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
     theLoaiPickerView.delegate = self
     theLoaiTF.delegate = self
     imgPicker.delegate = self
-    
-    
-    
-    
-    // Do any additional setup after loading the view.
   }
   override func viewWillAppear(_ animated: Bool) {
     if let segueID = segueName {
@@ -76,7 +71,7 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
       tenPhimTF.text = tenPhim
       ngayPhatHanhTF.text = ngayPhatHanh
       moTaTV.text = moTa
-      DSPhimTBVC.downloadImage(posterUrl: posterURL!, imgView: posterImg)
+      downloadImage(posterUrl: posterURL!, imgView: posterImg)
       taoPhimOutlet.setTitle("Sửa phim", for: .normal)
       print("")
     } else {
@@ -88,7 +83,7 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
       let result = formatter.string(from: date)
       ngayPhatHanhTF.text = result
     }
-    token = DangNhapVC.userDefault.string(forKey: "token")
+    token = userDefault.string(forKey: "token")
   }
   override func viewDidAppear(_ animated: Bool) {
     if let segueID = segueName {
@@ -122,18 +117,18 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
     let randomNum:UInt32 = arc4random_uniform(999999)
     let number:Int = Int(randomNum)
     var fileName = "dat-\(number).jpg"
-    let creatorID = DangNhapVC.userDefault.string(forKey: "userID")
+    let creatorID = userDefault.string(forKey: "userID")
     var info : [String: Any]?
     var url : String?
     print(creatorID!)
-          if let segue = segueName {
-    info = ["name" : tenPhimTF.text!, "genre" : theLoaiTF.text!, "releaseDate" : dateSt, "content" : moTaTV.text!, "creatorId" : creatorID!, "id": phimID!]
-    url = baseURL + "/api/cinema/edit"
-          } else {
-            info = ["name" : tenPhimTF.text!, "genre" : theLoaiTF.text!, "releaseDate" : dateSt, "content" : moTaTV.text!, "creatorId" : creatorID!]
-            url = baseURL + "/api/cinema/"
-            //headers = nil
-          }
+    if let segue = segueName {
+      info = ["name" : tenPhimTF.text!, "genre" : theLoaiTF.text!, "releaseDate" : dateSt, "content" : moTaTV.text!, "creatorId" : creatorID!, "id": phimID!]
+      url = baseURL + "/api/cinema/edit"
+    } else {
+      info = ["name" : tenPhimTF.text!, "genre" : theLoaiTF.text!, "releaseDate" : dateSt, "content" : moTaTV.text!, "creatorId" : creatorID!]
+      url = baseURL + "/api/cinema/"
+      //headers = nil
+    }
     
     
     
@@ -171,27 +166,9 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
     
     
   }
-  public func numberOfComponents(in pickerView: UIPickerView) -> Int{
-    return 1
-  }
+ 
   
-  public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int{
-    
-    return listTheLoai.count
-  }
-  
-  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    
-    self.view.endEditing(true)
-    return listTheLoai[row]
-  }
-  
-  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    
-    self.theLoaiTF.text = self.listTheLoai[row]
-    self.theLoaiPickerView.isHidden = true
-  }
-  
+ 
   func textFieldDidBeginEditing(_ textField: UITextField) {
     
     if textField == self.theLoaiTF {
@@ -221,5 +198,28 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UIPickerV
     }
     
     dismiss(animated: true, completion: nil)
+  }
+}
+
+extension TaoPhimVC: UIPickerViewDelegate {
+  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    self.view.endEditing(true)
+    return listTheLoai[row]
+  }
+  
+  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    self.theLoaiTF.text = self.listTheLoai[row]
+    self.theLoaiPickerView.isHidden = true
+  }
+  
+}
+
+extension TaoPhimVC: UIPickerViewDataSource {
+  public func numberOfComponents(in pickerView: UIPickerView) -> Int{
+    return 1
+  }
+  
+  public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int{    
+    return listTheLoai.count
   }
 }

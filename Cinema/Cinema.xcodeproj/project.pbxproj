@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		301D06D429FE746A3538D30E /* Pods_Cinema.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CD06147627629D199FF5563 /* Pods_Cinema.framework */; };
+		AA328B84216458A20038CFFF /* Utitlities.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA328B83216458A20038CFFF /* Utitlities.swift */; };
 		AA3CBE07215A25DD0061E88E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CBE06215A25DD0061E88E /* User.swift */; };
 		AA3CBE0B215A2FBC0061E88E /* ListFilm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CBE0A215A2FBC0061E88E /* ListFilm.swift */; };
 		AA3F3436215B49440039EF4B /* LoginToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3F3435215B49440039EF4B /* LoginToken.swift */; };
@@ -35,6 +36,7 @@
 /* Begin PBXFileReference section */
 		5E363E3AE4C9F1E1D9F25508 /* Pods-Cinema.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cinema.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Cinema/Pods-Cinema.debug.xcconfig"; sourceTree = "<group>"; };
 		8CD06147627629D199FF5563 /* Pods_Cinema.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Cinema.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA328B83216458A20038CFFF /* Utitlities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utitlities.swift; sourceTree = "<group>"; };
 		AA3CBE06215A25DD0061E88E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AA3CBE0A215A2FBC0061E88E /* ListFilm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFilm.swift; sourceTree = "<group>"; };
 		AA3F3435215B49440039EF4B /* LoginToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginToken.swift; sourceTree = "<group>"; };
@@ -121,20 +123,7 @@
 				AA7FB8FC2159CD5400E778E4 /* Assets.xcassets */,
 				AA7FB8FE2159CD5400E778E4 /* LaunchScreen.storyboard */,
 				AA7FB9012159CD5400E778E4 /* Info.plist */,
-				AA7FB90F2159E50500E778E4 /* DangKyVC.swift */,
-				AA7FB9132159E79F00E778E4 /* DSPhimCell.swift */,
-				AA7FB9152159F60900E778E4 /* Phim.swift */,
 				AA855F0F215B267100F03C35 /* montserrat */,
-				AA3CBE06215A25DD0061E88E /* User.swift */,
-				AA3CBE0A215A2FBC0061E88E /* ListFilm.swift */,
-				AA3F3435215B49440039EF4B /* LoginToken.swift */,
-				AA3F3437215B65390039EF4B /* LoginUser.swift */,
-				AAF70BCD215B799C00409414 /* TaoPhimVC.swift */,
-				AAEE6325215C6D4300D58C40 /* Constant.swift */,
-				AA4ED90F215DB9E900A6C368 /* ChiTietPhimVC.swift */,
-				AA47259A215E09DA00D168DF /* UserVC.swift */,
-				AAB0F1B5215F295B00FA68DC /* DSPhimUserCell.swift */,
-				AA96D8162161C10000B46204 /* statusAPI.swift */,
 			);
 			path = Cinema;
 			sourceTree = "<group>";
@@ -142,8 +131,15 @@
 		AA96D8182161D48B00B46204 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				AAB0F1B5215F295B00FA68DC /* DSPhimUserCell.swift */,
+				AA7FB9132159E79F00E778E4 /* DSPhimCell.swift */,
 				AA7FB90D2159E4DA00E778E4 /* DSPhimTBVC.swift */,
 				AA7FB8F72159CD5300E778E4 /* DangNhapVC.swift */,
+				AA7FB90F2159E50500E778E4 /* DangKyVC.swift */,
+				AAF70BCD215B799C00409414 /* TaoPhimVC.swift */,
+				AA4ED90F215DB9E900A6C368 /* ChiTietPhimVC.swift */,
+				AA47259A215E09DA00D168DF /* UserVC.swift */,
+				AA328B83216458A20038CFFF /* Utitlities.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -159,6 +155,13 @@
 			isa = PBXGroup;
 			children = (
 				AA47259C215E221C00D168DF /* RegisterUser.swift */,
+				AA3CBE06215A25DD0061E88E /* User.swift */,
+				AA3CBE0A215A2FBC0061E88E /* ListFilm.swift */,
+				AA3F3435215B49440039EF4B /* LoginToken.swift */,
+				AA3F3437215B65390039EF4B /* LoginUser.swift */,
+				AA96D8162161C10000B46204 /* statusAPI.swift */,
+				AA7FB9152159F60900E778E4 /* Phim.swift */,
+				AAEE6325215C6D4300D58C40 /* Constant.swift */,
 			);
 			path = Modal;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA4ED910215DB9E900A6C368 /* ChiTietPhimVC.swift in Sources */,
+				AA328B84216458A20038CFFF /* Utitlities.swift in Sources */,
 				AA7FB9102159E50500E778E4 /* DangKyVC.swift in Sources */,
 				AA3CBE0B215A2FBC0061E88E /* ListFilm.swift in Sources */,
 				AAB0F1B6215F295B00FA68DC /* DSPhimUserCell.swift in Sources */,
@@ -449,7 +453,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2R6U9FW862;
 				INFOPLIST_FILE = Cinema/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ChinhDat.Cinema;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -465,7 +472,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2R6U9FW862;
 				INFOPLIST_FILE = Cinema/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ChinhDat.Cinema;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
