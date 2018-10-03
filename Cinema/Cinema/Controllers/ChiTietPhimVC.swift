@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 
 class ChiTietPhimVC: UIViewController {
-  
+  // MARK: - Class's Property
   var tenPhim : String?
   var theLoai : String?
   var ngayPhatHanh : String?
@@ -25,8 +25,6 @@ class ChiTietPhimVC: UIViewController {
     "x-access-token": token!
   ]
   
-  
-  
   @IBOutlet weak var tenPhimTF: UILabel!
   @IBOutlet weak var theLoaiTF: UILabel!
   @IBOutlet weak var ngayPhatHanhTF: UILabel!
@@ -37,8 +35,7 @@ class ChiTietPhimVC: UIViewController {
   @IBOutlet weak var xoaPhimOutlet: UIButton!
   @IBOutlet weak var nguoiTaoTF: UILabel!
   
-  
-  
+  // MARK: - UIViewController's methods
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -65,9 +62,8 @@ class ChiTietPhimVC: UIViewController {
     xoaPhimOutlet.layer.masksToBounds = false
     xoaPhimOutlet.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
     xoaPhimOutlet.layer.shadowOpacity = 1.0
-    
-    // Do any additional setup after loading the view.
   }
+  
   override func viewWillAppear(_ animated: Bool) {
     tenPhimTF.text = tenPhim
     theLoaiTF.text = theLoai
@@ -82,8 +78,7 @@ class ChiTietPhimVC: UIViewController {
       moTaTV.isHidden = false
       moTaTV.text = moTa
     }
-    
-    
+
     if userDefault.string(forKey: "userID") == userID {
       editOutlet.isHidden = false
       xoaPhimOutlet.isHidden = false
@@ -93,16 +88,23 @@ class ChiTietPhimVC: UIViewController {
     }
     token = userDefault.string(forKey: "token")
   }
+}
+
+//MARK: - Button's action
+extension ChiTietPhimVC {
   
+  // Back
   @IBAction func backBtn(_ sender: UIButton) {
     self.navigationController?.popViewController(animated: true)
     self.dismiss(animated: true, completion: nil)
   }
   
+  // Sua phim
   @IBAction func editBtn(_ sender: UIButton) {
     performSegue(withIdentifier: "goEdit", sender: self)
   }
   
+  // Xoa phim
   @IBAction func xoaBtn(_ sender: UIButton) {
     let alert = UIAlertController(title: "Xác nhận", message: "Bạn có chắc chắn muốn xóa phim này không?", preferredStyle: .alert)
     // actions
@@ -123,36 +125,26 @@ class ChiTietPhimVC: UIViewController {
             self.view.makeToast("Lỗi")
             break
           }
-          
-          
-          
-          //self.performSegue(withIdentifier: "goDSPhim", sender: self)
-          
-          
-          
-          break
+        break
         case .failure(let error):
-          
           print(error)
         }
       }
-      
-      
     }
     let noBtn = UIAlertAction(title: "Không", style: .destructive) { (btn) in
       print("Không")
     }
     alert.addAction(noBtn)
     alert.addAction(yesBtn)
-    
-    
-    
     present(alert, animated: true, completion: nil)
   }
+}
+
+// MARK: - Segue's methods
+extension ChiTietPhimVC {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "goEdit" {
       let controller = segue.destination as! TaoPhimVC
-      
       controller.tenPhim = tenPhimTF.text
       controller.theLoai = theLoaiTF.text
       controller.ngayPhatHanh = ngayPhatHanhTF.text
@@ -161,8 +153,6 @@ class ChiTietPhimVC: UIViewController {
       controller.segueName = segue.identifier
       controller.phimID = phimID
       //controller.userID = phim.creatorId
-      
-      
     }
   }
   

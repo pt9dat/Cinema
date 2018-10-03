@@ -69,8 +69,7 @@ extension DangNhapVC {
       view.makeToast("Email không đúng")
     } else {
       let info : [String: String] = ["email" : mailTF.text!, "password" : passTF.text!]
-      let jsonURLString = baseURL + "/api/auth/signin"
-      guard let url = URL(string: jsonURLString) else {return}
+      guard let url = URL(string: baseURL + "/api/auth/signin") else { return }
       Alamofire.request(url, method: .post, parameters: info, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
         switch response.result {
         case .success:
@@ -119,8 +118,7 @@ extension DangNhapVC {
         self.view.makeToast("Email không đúng")
       } else {
         let info : [String: String] = ["email" : email.text!]
-        let jsonURLString = baseURL + "/api/auth/reset-password"
-        guard let url = URL(string: jsonURLString) else {return}
+        guard let url = URL(string: baseURL + "/api/auth/reset-password") else { return }
         Alamofire.request(url, method: .post, parameters: info, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
           switch response.result {
           case .success:

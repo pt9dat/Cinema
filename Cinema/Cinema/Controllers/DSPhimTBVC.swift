@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import SDWebImage
 
-class DSPhimTBVC:  UIViewController, UISearchBarDelegate {
+class DSPhimTBVC:  UIViewController {
   
   // MARK: - Class's Property
   @IBOutlet weak var tbView: UITableView!
@@ -115,8 +115,8 @@ extension DSPhimTBVC {
   }
 }
 
-// MARK: - SearchBar's methods
-extension DSPhimTBVC {
+// MARK: - UISearchBarDelegate's methods
+extension DSPhimTBVC: UISearchBarDelegate {
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     if searchBar.text == nil || searchBar.text == "" {
       isSearching = false
@@ -165,6 +165,28 @@ extension DSPhimTBVC: UITableViewDelegate{
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return 120
   }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    index = indexPath.row
+    performSegue(withIdentifier: "goChiTietPhim", sender: self)
+  }
+  
+  func parseJSON() {
+    guard let url = URL(string: baseURL + "/api/cinema") else { return }
+    Alamofire.request(url).responseJSON { [weak self](response) in
+      guard let `self` = self else { return }
+      if response.result.isSuccess {
+        guard let list = try? JSONDecoder().decode(ListFilm.self, from: response.data!) else {
+          print("error load")
+          return
+        }
+        self.listPhim = list.movies
+        self.tbView.reloadData()
+      } else {
+        print("ERROR: \(response.result.error)")
+      }
+    }
+  }
 }
 
 // MARK: - UITableViewDataSource's methods
@@ -192,32 +214,6 @@ extension DSPhimTBVC: UITableViewDataSource {
     cell.dateTF.text = dateConvert(date: phim.release)
     downloadImage(posterUrl: phim.cover, imgView: cell.imgIV)
     return cell
-  }
-}
-
-// MARK: - UITableView's functions
-extension DSPhimTBVC {
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    index = indexPath.row
-    performSegue(withIdentifier: "goChiTietPhim", sender: self)
-  }
-  
-  func parseJSON() {
-    let jsonURLString = baseURL + "/api/cinema"
-    guard let url = URL(string: jsonURLString) else {return}
-    Alamofire.request(url).responseJSON { [weak self](response) in
-      guard let `self` = self else { return }
-      if response.result.isSuccess {
-        guard let list = try? JSONDecoder().decode(ListFilm.self, from: response.data!) else {
-          print("error load")
-          return
-        }
-        self.listPhim = list.movies
-        self.tbView.reloadData()
-      } else {
-        print("ERROR: \(response.result.error)")
-      }
-    }
   }
 }
 

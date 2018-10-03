@@ -10,7 +10,7 @@ import UIKit
 import HSDatePickerViewController
 import Alamofire
 
-class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class TaoPhimVC: UIViewController {
   // MARK: - Class's Property
   @IBOutlet weak var chonAnhOutlet: UIButton!
   @IBOutlet weak var taoPhimOutlet: UIButton!
@@ -40,6 +40,7 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UITextFie
   var posterURL : String?
   var phimID : String?
   
+  // MARK: - UIViewController's methods
   override func viewDidLoad() {
     super.viewDidLoad()
     chonAnhOutlet.layer.borderWidth = 5
@@ -65,6 +66,7 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UITextFie
     theLoaiTF.delegate = self
     imgPicker.delegate = self
   }
+  
   override func viewWillAppear(_ animated: Bool) {
     if let segueID = segueName {
       theLoaiTF.text = theLoai
@@ -85,31 +87,24 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UITextFie
     }
     token = userDefault.string(forKey: "token")
   }
+  
   override func viewDidAppear(_ animated: Bool) {
     if let segueID = segueName {
       posterImg.image = img
     }
   }
-  
-  
+}
+
+// MARK: - Button's action
+extension TaoPhimVC: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+  // Ngay phat hanh
   @IBAction func ngayPhatHanhAction(_ sender: UITextField) {
     present(datePK, animated: true, completion: nil)
   }
   
-  
-  func hsDatePickerPickedDate(_ date: Date!) {
-    print("Date picked \(date)")
-    let dateFormater = DateFormatter()
-    dateFormater.dateFormat = "dd/MM/yyyy"
-    ngayPhatHanhTF.text = dateFormater.string(from: date)
-    
-  }
-  
-  
+  //Tao phim
   @IBAction func taoPhimBtn(_ sender: UIButton) {
     let dfmatter = DateFormatter()
-    //        dfmatter.timeZone = TimeZone(abbreviation: "GMT") //Set timezone that you want
-    //        dfmatter.locale = NSLocale.current
     dfmatter.dateFormat="dd/MM/yyyy"
     let date = dfmatter.date(from: ngayPhatHanhTF.text!)
     let dateStamp:TimeInterval = date!.timeIntervalSince1970
@@ -130,77 +125,46 @@ class TaoPhimVC: UIViewController, HSDatePickerViewControllerDelegate, UITextFie
       //headers = nil
     }
     
-    
-    
     Alamofire.upload(multipartFormData: { (multipartFormData) in
       for (key, values) in info! {
         multipartFormData.append("\(values)".data(using: String.Encoding.utf8)!, withName: key as String)
       }
       if let data = UIImageJPEGRepresentation(self.img, 1.0) {
-        
         multipartFormData.append(data, withName: "file", fileName: fileName, mimeType: "image/jpeq")
       }
-      
     }, to: url!, method: .post, headers: headers)  { encodingResult in
       switch encodingResult {
       case .success(let upload, _, _):
-        
         upload.responseJSON { response in
           debugPrint(response)
-          
         }
-        
         upload.uploadProgress{
-          
           print("-----> ", $0.fractionCompleted)
-          
         }
         print("done")
         self.performSegue(withIdentifier: "goDSPhim", sender: self)
-        
       case .failure(let encodingError):
         print(encodingError)
       }
     }
-    
-    
-    
-  }
- 
-  
- 
-  func textFieldDidBeginEditing(_ textField: UITextField) {
-    
-    if textField == self.theLoaiTF {
-      self.theLoaiPickerView.isHidden = false
-      //if you don't want the users to se the keyboard type:
-      
-      textField.endEditing(true)
-    }
   }
   
+  // Back
   @IBAction func backBtn(_ sender: UIButton) {
     navigationController?.popViewController(animated: true)
     dismiss(animated: true, completion: nil)
   }
+  
+  // Chon anh
   @IBAction func chonAnhBtn(_ sender: Any) {
     imgPicker.allowsEditing = false
     imgPicker.sourceType = .photoLibrary
     
     present(imgPicker, animated: true, completion: nil)
   }
-  
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-    if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-      posterImg.contentMode = .scaleAspectFit
-      posterImg.image = pickedImage
-      img = pickedImage
-    }
-    
-    dismiss(animated: true, completion: nil)
-  }
 }
 
+// MARK: - UIPickerViewDelegate's methods
 extension TaoPhimVC: UIPickerViewDelegate {
   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
     self.view.endEditing(true)
@@ -214,6 +178,7 @@ extension TaoPhimVC: UIPickerViewDelegate {
   
 }
 
+// MARK: - UIPickerViewDataSource's methods
 extension TaoPhimVC: UIPickerViewDataSource {
   public func numberOfComponents(in pickerView: UIPickerView) -> Int{
     return 1
@@ -221,5 +186,38 @@ extension TaoPhimVC: UIPickerViewDataSource {
   
   public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int{    
     return listTheLoai.count
+  }
+}
+
+// MARK: - UITextFieldDelegate's methods
+extension TaoPhimVC: UITextFieldDelegate {
+  func textFieldDidBeginEditing(_ textField: UITextField) {
+    if textField == self.theLoaiTF {
+      self.theLoaiPickerView.isHidden = false
+      textField.endEditing(true)
+    }
+  }
+}
+
+// MARK: - UIIMagePickerController's methods
+extension TaoPhimVC{
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+      posterImg.contentMode = .scaleAspectFit
+      posterImg.image = pickedImage
+      img = pickedImage
+    }
+    dismiss(animated: true, completion: nil)
+  }
+}
+
+// MARK: - HSDatePickerViewControllerDelegate's methods
+extension TaoPhimVC: HSDatePickerViewControllerDelegate {
+  func hsDatePickerPickedDate(_ date: Date!) {
+    print("Date picked \(date)")
+    let dateFormater = DateFormatter()
+    dateFormater.dateFormat = "dd/MM/yyyy"
+    ngayPhatHanhTF.text = dateFormater.string(from: date)
+    
   }
 }

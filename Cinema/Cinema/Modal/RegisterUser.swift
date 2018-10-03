@@ -21,5 +21,4 @@ extension RegisterUser: Decodable {
         self.user = try values.decode(LoginUser.self, forKey: .user)
         
     }
-    
 }

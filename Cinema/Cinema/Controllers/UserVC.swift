@@ -11,8 +11,8 @@ import Alamofire
 import Toast
 import SDWebImage
 
-class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
-  //
+class UserVC: UIViewController {
+  // MARK: - Class's Property
   @IBOutlet weak var doiMatKhauOutlet: UIButton!
   @IBOutlet weak var dangXuatOutlet: UIButton!
   @IBOutlet weak var avatarOutlet: UIButton!
@@ -29,15 +29,13 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
   var listPhim = [Phim]()
   var user = User()
   var avatarUrl : String?
+  var index = 0
   let refreshControl = UIRefreshControl()
   lazy var headers: HTTPHeaders = [
     "x-access-token": token!
   ]
   
-  
-  
-  
-  
+  // MARK: - UIViewController's methods
   fileprivate func configUI() {
     doiMatKhauOutlet.layer.borderWidth = 5
     doiMatKhauOutlet.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -68,53 +66,43 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     dsPhimView.delegate = self
     dsPhimView.dataSource = self
     
-    
-
-    
-    //scrollViewOutlet.addSubview(refreshControl)  // here it is
     scrollViewOutlet.isScrollEnabled = true
     scrollViewOutlet.alwaysBounceVertical = true
-    
-
-    
-    // Do any additional setup after loading the view.
   }
+  
   override func viewWillAppear(_ animated: Bool) {
     userNameLbl.text = userDefault.string(forKey: "userName")
     emailLbl.text = userDefault.string(forKey: "userEmail")
     token = userDefault.string(forKey: "token")
     
+    let url = URL(string: baseURL + listPhimUser[0].user.avatar)
+    avatarOutlet.sd_setImage(with: url, for: .normal, placeholderImage: UIImage(named: "195151"))
+    
     
     scrollViewOutlet.refreshControl = refreshControl
     refreshControl.addTarget(self, action: #selector(updateData), for: .valueChanged)
-//    if let url = listPhimUser[0].user.avatar {
-//      avatar.
-    //}
   }
   
+  // Update Data
   @objc func updateData() {
     reloadUserInfo()
     reloadListPhim()
     refreshControl.endRefreshing()
   }
   
+  // Reload data of list phim
   func reloadListPhim () {
-    let jsonURLString = baseURL + "/api/cinema"
-    guard let url = URL(string: jsonURLString) else {return}
+    guard let url = URL(string: baseURL + "/api/cinema") else {return}
     Alamofire.request(url).responseJSON { [weak self](response) in
       guard let `self` = self else { return }
       if response.result.isSuccess {
-  
         guard let list = try? JSONDecoder().decode(ListFilm.self, from: response.data!) else {
           print("error load")
           return
-          
         }
-        
         self.listPhimUser = list.movies.filter({ (phim) -> Bool in
           return phim.creatorId == userDefault.string(forKey: "userID")
         })
-        
         self.dsPhimView.reloadData()
       } else {
         print("fail")
@@ -122,9 +110,8 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     }
   }
   
+  // Reload user info
   func reloadUserInfo() {
-    
-  
     let info : [String : String] = ["token" : userDefault.string(forKey: "token")!]
     let jsonURLString = baseURL + "/api/auth/user"
     guard let url = URL(string: jsonURLString) else {return}
@@ -132,51 +119,27 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
       switch response.result {
       case .success:
         print(response)
-          guard let getUser = try? JSONDecoder().decode(User.self, from: response.data!) else {
-            print("error decode")
-            return
-
-          }
-
-
-          userDefault.set(getUser.username, forKey: "userName")
+        guard let getUser = try? JSONDecoder().decode(User.self, from: response.data!) else {
+          print("error decode")
+          return
+        }
+        userDefault.set(getUser.username, forKey: "userName")
         self.userNameLbl.text = userDefault.string(forKey: "userName")
-
-
-          break
-
-
+        break
       case .failure(let error):
-
         print(error)
-
-    }
-
-    }
-    }
-
-  @objc func append(sender: UILongPressGestureRecognizer, actionBtn: UIAlertAction, alert: UIAlertController, oldPass: String, newPass: String) {
-    
-    if sender.state == .began {
-      actionBtn.isEnabled = false
-    } else if sender.state == .ended {
-      // Do whatever you want with the alert text fields
-      print(alert.textFields![0].text)
-      actionBtn.isEnabled = true
+      }
     }
   }
-  
-  
+}
+
+// MARK: - Button's action
+extension UserVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   @IBAction func doiMatKhauBtn(_ sender: UIButton) {
-    
     var oldPassTF = UITextField()
     var newPassTF = UITextField()
     var confNewPassTF = UITextField()
     let alert = UIAlertController(title: "Đổi mật khẩu", message: "", preferredStyle: .alert)
-    let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.append(sender:actionBtn:alert:oldPass:newPass:)))
-    gestureRecognizer.minimumPressDuration = 0.0
-    alert.view.addGestureRecognizer(gestureRecognizer)
-    
     let actionDoi = UIAlertAction(title: "Đổi", style: .default) { (action) in
       if oldPassTF.text == nil || oldPassTF.text == "" {
         self.view.makeToast("Bạn phải nhập mật khẩu hiện tại")
@@ -194,11 +157,9 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
           switch response.result {
           case .success:
             print(response)
-            
             guard let getStatus = try? JSONDecoder().decode(statusAPI.self, from: response.data!) else {
               print("error decode")
               return
-              
             }
             let status = getStatus.status
             print(status)
@@ -206,31 +167,20 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
               self.view.makeToast("Đổi mật khẩu thành công.")
             } else {
               self.view.makeToast("Mật khẩu hiện tại không đúng.")
-
             }
-            
-            
-            
-            //self.performSegue(withIdentifier: "goDSPhim", sender: self)
-            
-            
-            
             break
           case .failure(let error):
-            
             print(error)
           }
         }
       }
     }
-    
     let actionHuy = UIAlertAction(title: "Hủy", style: .destructive)
     alert.addTextField { (tf) in
       tf.placeholder = "Mật khẩu hiện tại"
       tf.isSecureTextEntry = true
       oldPassTF = tf
     }
-    
     alert.addTextField { (tf) in
       tf.placeholder = "Mật khẩu mới"
       tf.isSecureTextEntry = true
@@ -241,12 +191,12 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
       tf.isSecureTextEntry = true
       confNewPassTF = tf
     }
-    
     alert.addAction(actionHuy)
     alert.addAction(actionDoi)
     present(alert, animated: true, completion: nil)
   }
   
+  // Dang xuat
   @IBAction func dangXuatBtn(_ sender: UIButton) {
     let alert = UIAlertController(title: "Xác nhận", message: "Bạn có muốn đăng xuất?", preferredStyle: .alert)
     // actions
@@ -255,129 +205,30 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
       userDefault.removeObject(forKey: "userID")
       userDefault.removeObject(forKey: "userName")
       userDefault.removeObject(forKey: "userEmail")
-      //print(DangNhapVC.userDefault.string(forKey: "token"))
-      
-      self.performSegue(withIdentifier: "goDangNhap", sender: self); //self.navigationController?.popViewController(animated: true)
-      //self.dismiss(animated: true, completion: nil)
-      
-      
-      
+      self.performSegue(withIdentifier: "goDangNhap", sender: self);
     }
     let noBtn = UIAlertAction(title: "Không", style: .destructive) { (btn) in
       print("Không")
     }
     alert.addAction(noBtn)
     alert.addAction(yesBtn)
-    
-    
-    
-    
-    
     present(alert, animated: true, completion: nil)
   }
   
+  // Back
   @IBAction func backBtn(_ sender: UIButton) {
     self.navigationController?.popViewController(animated: true)
     self.dismiss(animated: true, completion: nil)
   }
   
+  // Doi avatar
   @IBAction func doiAvatarBtn(_ sender: UIButton) {
     imgPicker.allowsEditing = false
     imgPicker.sourceType = .photoLibrary
-    
     present(imgPicker, animated: true, completion: nil)
   }
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-    if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-      avatarOutlet.imageView?.contentMode = .scaleAspectFit
-      avatarOutlet.setImage(pickedImage, for: .normal)
-      avatar = pickedImage
-      let randomNum:UInt32 = arc4random_uniform(999999)
-      let number:Int = Int(randomNum)
-      let fileName = "dat-\(number).jpg"
-      let url = baseURL + "/api/user/change-avatar"
-      
-      
-      Alamofire.upload(multipartFormData: { (multipartFormData) in
-        
-        if let data = UIImageJPEGRepresentation(pickedImage, 1.0) {
-          
-          multipartFormData.append(data, withName: "file", fileName: fileName, mimeType: "image/jpeq")
-        }
-        
-      }, to: url, method: .post, headers: headers)  { encodingResult in
-        switch encodingResult {
-        case .success(let upload, _, _):
-          
-          upload.responseJSON { response in
-            debugPrint(response)
-            
-          }
-          
-          upload.uploadProgress{
-            
-            print("-----> ", $0.fractionCompleted)
-            
-          }
-          print("done")
-          
-          
-        case .failure(let encodingError):
-          print(encodingError)
-        }
-      }
-      
-      
-    }
-    
-    dismiss(animated: true, completion: nil)
-  }
   
-  //  private func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-  //        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-  //            avatarOutlet.imageView?.contentMode = .scaleAspectFit
-  //            avatarOutlet.setImage(pickedImage, for: .normal)
-  //            avatar = pickedImage
-  //          let number = Int.random(in: 100000 ... 999999)
-  //          var fileName = "dat-\(number).jpg"
-  //          let url = baseURL + "/api/user/change-avatar"
-  //
-  //
-  //          Alamofire.upload(multipartFormData: { (multipartFormData) in
-  //
-  //            if let data = UIImage.jpegData(pickedImage)(compressionQuality: 1) {
-  //
-  //              multipartFormData.append(data, withName: "file", fileName: fileName, mimeType: "image/jpeq")
-  //            }
-  //
-  //          }, to: url, method: .post, headers: headers)  { encodingResult in
-  //            switch encodingResult {
-  //            case .success(let upload, _, _):
-  //
-  //              upload.responseJSON { response in
-  //                debugPrint(response)
-  //
-  //              }
-  //
-  //              upload.uploadProgress{
-  //
-  //                print("-----> ", $0.fractionCompleted)
-  //
-  //              }
-  //              print("done")
-  //
-  //
-  //            case .failure(let encodingError):
-  //              print(encodingError)
-  //            }
-  //          }
-  //
-  //
-  //        }
-  //
-  //        dismiss(animated: true, completion: nil)
-  //    }
-  
+  // Doi user name
   @IBAction func userNameBtn(_ sender: Any) {
     var newNameTF = UITextField()
     let alert = UIAlertController(title: "Đổi tên user", message: "", preferredStyle: .alert)
@@ -392,7 +243,6 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
           guard let getStatus = try? JSONDecoder().decode(statusAPI.self, from: response.data!) else {
             print("error decode")
             return
-            
           }
           if getStatus.status == 200 {
             self.view.makeToast("Đổi tên thành công.")
@@ -403,16 +253,8 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
             self.view.makeToast("Lỗi.")
             break
           }
-          
-          
-          
-          //self.performSegue(withIdentifier: "goDSPhim", sender: self)
-          
-          
-          
           break
         case .failure(let error):
-          
           print(error)
         }
       }
@@ -426,15 +268,16 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     alert.addAction(actionYes)
     present(alert, animated: true, completion: nil)
   }
-  
-  
+  // Tao phim
   @IBAction func taoPhimBtn(_ sender: UIButton) {
     performSegue(withIdentifier: "goTaoPhim", sender: self)
   }
-  var index = 0
+}
+
+// MARK: - Segue's methods
+extension UserVC {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "goChiTietPhim" {
-      //let indexPath = index
       let controller = segue.destination as! ChiTietPhimVC
       let phim = listPhimUser[index]
       controller.tenPhim = phim.title
@@ -445,18 +288,56 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
       controller.userID = phim.creatorId
       controller.posterUrl = phim.cover
       controller.phimID = phim.id
-      
-      
-      
     }
   }
-  
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return listPhimUser.count
+}
+
+// MARK: - UIImagePickerController's methods
+extension UserVC {
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+      avatarOutlet.imageView?.contentMode = .scaleAspectFit
+      avatarOutlet.setImage(pickedImage, for: .normal)
+      avatar = pickedImage
+      let randomNum:UInt32 = arc4random_uniform(999999)
+      let number:Int = Int(randomNum)
+      let fileName = "dat-\(number).jpg"
+      let url = baseURL + "/api/user/change-avatar"
+      Alamofire.upload(multipartFormData: { (multipartFormData) in
+        if let data = UIImageJPEGRepresentation(pickedImage, 1.0) {
+          multipartFormData.append(data, withName: "file", fileName: fileName, mimeType: "image/jpeq")
+        }
+      }, to: url, method: .post, headers: headers)  { encodingResult in
+        switch encodingResult {
+        case .success(let upload, _, _):
+          upload.responseJSON { response in
+            debugPrint(response)
+          }
+          upload.uploadProgress{
+            print("-----> ", $0.fractionCompleted)
+          }
+          print("done")
+        case .failure(let encodingError):
+          print(encodingError)
+        }
+      }
+    }
+    dismiss(animated: true, completion: nil)
   }
+}
+
+// MARK: - UICollectionViewDelegate's method
+extension UserVC: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     index = indexPath.row
     performSegue(withIdentifier: "goChiTietPhim", sender: self)
+  }
+}
+
+// MARK: - UICollectionViewDataSource's method
+extension UserVC: UICollectionViewDataSource {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return listPhimUser.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -468,5 +349,4 @@ class UserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     downloadImage(posterUrl: phim.cover, imgView: (cell?.posterImg)!)
     return cell!
   }
-  
 }

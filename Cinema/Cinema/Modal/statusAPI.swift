@@ -8,15 +8,15 @@
 
 import Foundation
 struct statusAPI {
-    var status : Int = 0
-    
-    enum StatusCodingKey : String, CodingKey {
-        case status
+  var status : Int = 0
+  
+  enum StatusCodingKey : String, CodingKey {
+    case status
+  }
 }
-}
-    extension statusAPI: Decodable {
-        init(from decoder : Decoder) throws {
-            let values = try decoder.container(keyedBy: StatusCodingKey.self)
-            self.status = try values.decodeIfPresent(Int.self, forKey: .status) ?? 0
-}
+extension statusAPI: Decodable {
+  init(from decoder : Decoder) throws {
+    let values = try decoder.container(keyedBy: StatusCodingKey.self)
+    self.status = try values.decodeIfPresent(Int.self, forKey: .status) ?? 0
+  }
 }

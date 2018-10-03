@@ -18,7 +18,6 @@ struct LoginUser {
         }
 }
 
-
 extension LoginUser: Decodable {
     init(from decoder : Decoder) throws {
         let values = try decoder.container(keyedBy: UserCodingKeys.self)
