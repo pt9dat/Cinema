@@ -74,10 +74,12 @@ class UserVC: UIViewController {
     userNameLbl.text = userDefault.string(forKey: "userName")
     emailLbl.text = userDefault.string(forKey: "userEmail")
     token = userDefault.string(forKey: "token")
-    
-    let url = URL(string: baseURL + listPhimUser[0].user.avatar)
+    if listPhimUser.isEmpty == false {
+    let urlString = baseURL + listPhimUser[0].user.avatar
+    print(urlString)
+    let url = URL(string: urlString)
     avatarOutlet.sd_setImage(with: url, for: .normal, placeholderImage: UIImage(named: "195151"))
-    
+    }
     
     scrollViewOutlet.refreshControl = refreshControl
     refreshControl.addTarget(self, action: #selector(updateData), for: .valueChanged)

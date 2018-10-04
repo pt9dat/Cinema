@@ -53,6 +53,7 @@ extension DangNhapVC {
   // Hide keyboard
   @IBAction func hideKeyboardBtn(_ sender: UIButton) {
     view.endEditing(true)
+    
   }
   // Back
   @IBAction func backBtn(_ sender: UIButton) {

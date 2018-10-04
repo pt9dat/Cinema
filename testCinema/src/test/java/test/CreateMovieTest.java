@@ -1,3 +1,6 @@
+package test;
+
+import base.CreateMovie;
 import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterMethod;
@@ -7,7 +10,7 @@ import org.testng.annotations.Test;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class SignInTest {
+public class CreateMovieTest {
     IOSDriver iosDriver;
     DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
     Integer testResult = 1;
@@ -31,9 +34,9 @@ public class SignInTest {
     }
 
     @Test
-    public void SignInTest() {
-        SignIn signIn = new SignIn(iosDriver);
-        signIn.testSignIn();
+    public void CreateMovieTest() {
+        CreateMovie createMovie = new CreateMovie(iosDriver);
+        createMovie.testCreateMovie();
 
         try {
             Thread.sleep(3000);

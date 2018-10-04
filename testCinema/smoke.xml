@@ -7,8 +7,8 @@
 
     <test name="Demo">
         <classes>
-            <class name="SignInTest"/>
-
+            <!--<class name="test.SignInTest"/>-->
+            <class name="test.CreateMovieTest"/>
         </classes>
     </test>
 </suite>

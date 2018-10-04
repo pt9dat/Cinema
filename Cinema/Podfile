@@ -12,6 +12,7 @@ target 'Cinema' do
   pod 'Toast'
   #pod 'FontAwesomeSwift'
   pod 'SDWebImage' 
+  pod 'EZLoadingActivity'
   #pod "CollectionViewSlantedLayout"
 
 end

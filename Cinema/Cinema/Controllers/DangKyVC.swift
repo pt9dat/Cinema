@@ -70,7 +70,7 @@ extension DangKyVC {
     } else {
       let info : [String : String] = ["email" : mailTF.text!, "name" : userNameTF.text!, "password" : passTF.text!]
       let jsonURLString = baseURL + "/api/auth/signup"
-      guard let url = URL(string: jsonURLString) else {return}
+      guard let url = URL(string: jsonURLString) else { return }
       Alamofire.request(url, method: .post, parameters: info, encoding: JSONEncoding.default).responseJSON { (response) in
         switch response.result {
         case .success:
@@ -99,7 +99,6 @@ extension DangKyVC {
         }
       }
     }
-    //performSegue(withIdentifier: "goDangNhap", sender: self)
   }
   
   // Dang nhap

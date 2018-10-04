@@ -1,7 +1,8 @@
+package base;
+
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import io.appium.java_client.remote.HideKeyboardStrategy;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -11,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class SignIn {
-    @FindBy(id = "taophim_btn")
+    @FindBy(id = "mh_taophim_btn")
     MobileElement taoPhimBtn;
 
     @FindBy(id = "email_tf")
@@ -62,9 +63,9 @@ public class SignIn {
     private IOSDriver iosDriver;
     private WebDriverWait wait;
 
-    String userName = "dat4444";
-    String email = "dat4444@mail.com";
-    String pass = "4444";
+    String userName = "dat67899";
+    String email = "dat67899@mail.com";
+    String pass = "9999";
 
 
     public SignIn(IOSDriver iosDriver) {

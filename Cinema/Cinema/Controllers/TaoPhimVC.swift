@@ -9,6 +9,7 @@
 import UIKit
 import HSDatePickerViewController
 import Alamofire
+import EZLoadingActivity
 
 class TaoPhimVC: UIViewController {
   // MARK: - Class's Property
@@ -20,6 +21,7 @@ class TaoPhimVC: UIViewController {
   @IBOutlet weak var theLoaiPickerView: UIPickerView!
   @IBOutlet weak var posterImg: UIImageView!
   @IBOutlet weak var moTaTV: UITextView!
+  @IBOutlet var heightConstraint: NSLayoutConstraint!
   
   let datePK = HSDatePickerViewController()
   let imgPicker = UIImagePickerController()
@@ -93,10 +95,17 @@ class TaoPhimVC: UIViewController {
       posterImg.image = img
     }
   }
+  
+  
 }
 
 // MARK: - Button's action
 extension TaoPhimVC: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+  // Hide Keyboard
+  @IBAction func hideKBBtn(_ sender: UIButton) {
+    view.endEditing(true)
+  }
+  
   // Ngay phat hanh
   @IBAction func ngayPhatHanhAction(_ sender: UITextField) {
     present(datePK, animated: true, completion: nil)
@@ -138,11 +147,17 @@ extension TaoPhimVC: UINavigationControllerDelegate, UIImagePickerControllerDele
         upload.responseJSON { response in
           debugPrint(response)
         }
+        EZLoadingActivity.show("Đang tạo phim...", disableUI: false)
         upload.uploadProgress{
           print("-----> ", $0.fractionCompleted)
+          
+          if $0.fractionCompleted == 1 {
+            EZLoadingActivity.hide(true, animated: true)
+
+            self.performSegue(withIdentifier: "goDSPhim", sender: self)
+            
+          }
         }
-        print("done")
-        self.performSegue(withIdentifier: "goDSPhim", sender: self)
       case .failure(let encodingError):
         print(encodingError)
       }
@@ -191,13 +206,34 @@ extension TaoPhimVC: UIPickerViewDataSource {
 
 // MARK: - UITextFieldDelegate's methods
 extension TaoPhimVC: UITextFieldDelegate {
+  
+  
   func textFieldDidBeginEditing(_ textField: UITextField) {
     if textField == self.theLoaiTF {
       self.theLoaiPickerView.isHidden = false
       textField.endEditing(true)
     }
+    if textField == self.moTaTV {
+      UIView.animate(withDuration: 0.5) {
+        self.heightConstraint.constant = 508
+        self.view.layoutIfNeeded()
+        
+      }
+    }
+    
+    }
+  
+  func textFieldDidEndEditing(_ textField: UITextField) {
+    if textField == self.moTaTV {
+      UIView.animate(withDuration: 0.5) {
+        self.heightConstraint.constant = 50
+        self.view.layoutIfNeeded()
+      }
+    }
   }
-}
+  }
+
+
 
 // MARK: - UIIMagePickerController's methods
 extension TaoPhimVC{
@@ -219,5 +255,19 @@ extension TaoPhimVC: HSDatePickerViewControllerDelegate {
     dateFormater.dateFormat = "dd/MM/yyyy"
     ngayPhatHanhTF.text = dateFormater.string(from: date)
     
+  }
+}
+
+extension TaoPhimVC {
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "goDSPhim" {
+      let controller = segue.destination as! DSPhimTBVC
+      controller.tenPhim = tenPhimTF.text
+      controller.theLoai = theLoaiTF.text
+      controller.ngayPhatHanh = ngayPhatHanhTF.text
+      controller.moTa = moTaTV.text
+      controller.poster = img
+      controller.segueID = "goDSPhim"
+    }
   }
 }

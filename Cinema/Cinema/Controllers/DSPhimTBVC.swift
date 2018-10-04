@@ -23,6 +23,12 @@ class DSPhimTBVC:  UIViewController {
   var isSearching = false
   let refreshControl = UIRefreshControl()
   var index = 0
+  var tenPhim : String?
+  var theLoai : String?
+  var ngayPhatHanh : String?
+  var moTa : String?
+  var poster = UIImage()
+  var segueID : String?
   
   // MARK: - UIViewController's methods
   fileprivate func configUI() {
@@ -79,6 +85,11 @@ class DSPhimTBVC:  UIViewController {
     tbView.bounces = true
     tbView.refreshControl = refreshControl
     refreshControl.addTarget(self, action: #selector(updateData), for: .valueChanged)
+    
+    if let segue = segueID {
+      
+    }
+    
   }
   
   @objc func updateData() {
