@@ -617,6 +617,9 @@
                                 <rect key="frame" x="0.0" y="75.5" width="375" height="611.5"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="ds_phim_tbv"/>
+                                </userDefinedRuntimeAttributes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fGj-8f-T3x">
                                 <rect key="frame" x="150" y="315" width="86" height="48"/>
@@ -1107,6 +1110,6 @@
         <segue reference="BP9-Fd-8dP"/>
         <segue reference="cI0-YD-zZo"/>
         <segue reference="w8M-xf-o6a"/>
-        <segue reference="MYN-Fy-KU1"/>
+        <segue reference="5Bi-GM-dxN"/>
     </inferredMetricsTieBreakers>
 </document>

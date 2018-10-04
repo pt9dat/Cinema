@@ -67,9 +67,7 @@ class TaoPhimVC: UIViewController {
     theLoaiPickerView.delegate = self
     theLoaiTF.delegate = self
     imgPicker.delegate = self
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
+    
     if let segueID = segueName {
       theLoaiTF.text = theLoai
       tenPhimTF.text = tenPhim
@@ -87,13 +85,17 @@ class TaoPhimVC: UIViewController {
       let result = formatter.string(from: date)
       ngayPhatHanhTF.text = result
     }
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    
     token = userDefault.string(forKey: "token")
   }
   
   override func viewDidAppear(_ animated: Bool) {
-    if let segueID = segueName {
-      posterImg.image = img
-    }
+//    if let segueID = segueName {
+//      posterImg.image = img
+//    }
   }
   
   
@@ -147,7 +149,13 @@ extension TaoPhimVC: UINavigationControllerDelegate, UIImagePickerControllerDele
         upload.responseJSON { response in
           debugPrint(response)
         }
-        EZLoadingActivity.show("Đang tạo phim...", disableUI: false)
+        print(self.segueName)
+        if self.segueName == "goEdit" {
+          EZLoadingActivity.show("Đang sửa phim...", disableUI: false)
+        } else {
+          EZLoadingActivity.show("Đang tạo phim...", disableUI: false)
+        }
+        
         upload.uploadProgress{
           print("-----> ", $0.fractionCompleted)
           

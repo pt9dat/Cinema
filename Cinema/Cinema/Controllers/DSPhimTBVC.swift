@@ -58,6 +58,7 @@ class DSPhimTBVC:  UIViewController {
     userInfoOutlet.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
     userInfoOutlet.layer.shadowOpacity = 1.0
     
+    UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white]
     refreshControl.tintColor = .white
   }
   
@@ -131,6 +132,7 @@ extension DSPhimTBVC: UISearchBarDelegate {
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     if searchBar.text == nil || searchBar.text == "" {
       isSearching = false
+      view.endEditing(true)
       tbView.reloadData()
     } else {
       isSearching = true
@@ -212,7 +214,7 @@ extension DSPhimTBVC: UITableViewDataSource {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "phimCell1") as! DSPhimCell
     //render data
-    let phim : Phim
+    let phim :Phim
     if isSearching {
       phim = filterData[indexPath.row]
     } else {

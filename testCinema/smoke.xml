@@ -8,7 +8,11 @@
     <test name="Demo">
         <classes>
             <!--<class name="test.SignInTest"/>-->
-            <class name="test.CreateMovieTest"/>
+            <!--<class name="test.CreateMovieTest"/>-->
+            <!--<class name="test.EditMovieTest"/>-->
+            <!--<class name="test.DeleteMovieTest"/>-->
+            <!--<class name="test.ChangePasswordTest"/>-->
+            <class name="test.SearchMovieTest"/>
         </classes>
     </test>
 </suite>
